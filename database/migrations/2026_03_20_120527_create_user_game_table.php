@@ -13,7 +13,12 @@ return new class extends Migration
     {
         Schema::create('user_game', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('game_id')->constrained()->onDelete('cascade');
+            $table->timestamp('purchased_at')->useCurrent();
             $table->timestamps();
+            
+            $table->unique(['user_id', 'game_id']);
         });
     }
 

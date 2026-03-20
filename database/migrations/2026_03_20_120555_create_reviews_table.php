@@ -13,7 +13,14 @@ return new class extends Migration
     {
         Schema::create('reviews', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('game_id')->constrained()->onDelete('cascade');
+            $table->integer('rating')->unsigned()->default(5); // 1-5 csillag
+            $table->text('comment')->nullable();
             $table->timestamps();
+
+            // Egy felhasználó csak egyszer értékelheti egy játékot
+            $table->unique(['user_id', 'game_id']);
         });
     }
 
