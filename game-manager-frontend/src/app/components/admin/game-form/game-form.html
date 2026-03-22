@@ -1,1 +1,119 @@
-<p>game-form works!</p>
+<div class="game-form-container">
+  <div class="form-card">
+    <h1>{{ isEditMode ? 'Edit Game' : 'Add New Game' }}</h1>
+
+    <div *ngIf="isLoading" class="loading">
+      <div class="spinner"></div>
+      <p>{{ isEditMode ? 'Loading game...' : 'Saving game...' }}</p>
+    </div>
+
+    <div *ngIf="errorMessage" class="alert alert-error">
+      {{ errorMessage }}
+    </div>
+
+    <div *ngIf="successMessage" class="alert alert-success">
+      {{ successMessage }}
+    </div>
+
+    <form *ngIf="!isLoading" (ngSubmit)="onSubmit()" #gameForm="ngForm">
+      <div class="form-group">
+        <label for="title">Game Title *</label>
+        <input 
+          type="text" 
+          id="title" 
+          name="title" 
+          [(ngModel)]="gameData.title" 
+          required
+          minlength="3"
+          placeholder="Enter game title"
+          #title="ngModel"
+        />
+        <div *ngIf="title.invalid && title.touched" class="validation-error">
+          <small *ngIf="title.errors?.['required']">Title is required</small>
+          <small *ngIf="title.errors?.['minlength']">Title must be at least 3 characters</small>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="description">Description *</label>
+        <textarea 
+          id="description" 
+          name="description" 
+          [(ngModel)]="gameData.description"
+          required
+          minlength="10"
+          rows="6"
+          placeholder="Enter game description"
+          #description="ngModel"
+        ></textarea>
+        <div *ngIf="description.invalid && description.touched" class="validation-error">
+          <small *ngIf="description.errors?.['required']">Description is required</small>
+          <small *ngIf="description.errors?.['minlength']">Description must be at least 10 characters</small>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="price">Price ($) *</label>
+          <input 
+            type="number" 
+            id="price" 
+            name="price" 
+            [(ngModel)]="gameData.price"
+            required
+            min="0"
+            step="0.01"
+            placeholder="0.00"
+            #price="ngModel"
+          />
+          <div *ngIf="price.invalid && price.touched" class="validation-error">
+            <small *ngIf="price.errors?.['required']">Price is required</small>
+            <small *ngIf="price.errors?.['min']">Price must be 0 or greater</small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="category">Category *</label>
+          <select 
+            id="category" 
+            name="category" 
+            [(ngModel)]="gameData.category_id"
+            required
+            #category="ngModel"
+          >
+            <option *ngFor="let cat of categories" [value]="cat.id">
+              {{ cat.name }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="cover_image">Cover Image URL</label>
+        <input 
+          type="url" 
+          id="cover_image" 
+          name="cover_image" 
+          [(ngModel)]="gameData.cover_image"
+          placeholder="https://example.com/image.jpg"
+          #coverImage="ngModel"
+        />
+        <small class="hint">Enter a valid image URL</small>
+      </div>
+
+      <div *ngIf="gameData.cover_image" class="image-preview">
+        <p>Cover Image Preview:</p>
+        <img [src]="gameData.cover_image" alt="Cover preview" />
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" (click)="cancel()">
+          Cancel
+        </button>
+        <button type="submit" class="btn btn-primary" [disabled]="gameForm.invalid">
+          {{ isEditMode ? 'Update Game' : 'Create Game' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
