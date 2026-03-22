@@ -16,6 +16,7 @@
         <a *ngIf="authService.isAdmin" routerLink="/admin/game/new" routerLinkActive="active" class="nav-link">
           + Játék hozzáadása
         </a>
+        <span class="nav-balance" title="Egyenleg">{{ (authService.currentUserValue?.balance ?? 0) | number:'1.0-0' }} Ft</span>
         <a routerLink="/profile" class="nav-avatar" title="Profilom">
           <img [src]="getAvatarUrl()" [alt]="authService.currentUserValue?.name" class="nav-avatar-img" />
           <span class="nav-username">{{ authService.currentUserValue?.name }}</span>
