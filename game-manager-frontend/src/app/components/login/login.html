@@ -1,1 +1,47 @@
-<p>login works!</p>
+<div class="auth-page">
+  <div class="auth-card">
+    <div class="auth-brand">
+      <span class="brand-dot"></span>
+      <span class="brand-name">GameManager</span>
+    </div>
+
+    <h2>Bejelentkezés</h2>
+    <p class="auth-sub">Nincs még fiókod? <a routerLink="/register">Regisztrálj</a></p>
+
+    <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+      <div class="form-group">
+        <label for="email">Email-cím</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          [(ngModel)]="credentials.email"
+          required
+          email
+          placeholder="pelda@email.hu"
+          [disabled]="isLoading"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="password">Jelszó</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          [(ngModel)]="credentials.password"
+          required
+          minlength="8"
+          placeholder="Jelszó"
+          [disabled]="isLoading"
+        />
+      </div>
+
+      <div *ngIf="errorMessage" class="alert-error">{{ errorMessage }}</div>
+
+      <button type="submit" class="btn-submit" [disabled]="loginForm.form.invalid || isLoading">
+        {{ isLoading ? 'Belépés...' : 'Bejelentkezés' }}
+      </button>
+    </form>
+  </div>
+</div>
