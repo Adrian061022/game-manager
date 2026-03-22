@@ -23,6 +23,15 @@ export interface GameRequest {
   category_id: number;
 }
 
+export interface GameFilters {
+  search?: string;
+  category_id?: number | null;
+  sort_by?: 'created_at' | 'price' | 'title';
+  sort_order?: 'asc' | 'desc';
+  min_price?: number | string;
+  max_price?: number | string;
+}
+
 export interface PaginatedGames {
   data: Game[];
   links: {

@@ -10,6 +10,81 @@
       </a>
     </div>
 
+    <!-- Filter Bar -->
+    <div class="filter-bar">
+      <!-- Search -->
+      <div class="filter-group filter-search">
+        <span class="filter-icon">🔍</span>
+        <input
+          type="text"
+          class="filter-input"
+          placeholder="Keresés cím vagy leírás alapján..."
+          [(ngModel)]="filters.search"
+          (ngModelChange)="onSearchChange()"
+        />
+      </div>
+
+      <!-- Category -->
+      <div class="filter-group">
+        <select class="filter-select" [(ngModel)]="filters.category_id" (ngModelChange)="onFilterChange()">
+          <option [ngValue]="null">Összes kategória</option>
+          <option *ngFor="let cat of categories" [ngValue]="cat.id">{{ cat.name }}</option>
+        </select>
+      </div>
+
+      <!-- Sort field -->
+      <div class="filter-group">
+        <select class="filter-select" [(ngModel)]="filters.sort_by" (ngModelChange)="onFilterChange()">
+          <option value="created_at">Dátum</option>
+          <option value="title">Cím (ÁBC)</option>
+          <option value="price">Ár</option>
+        </select>
+      </div>
+
+      <!-- Sort order -->
+      <div class="filter-group">
+        <select class="filter-select" [(ngModel)]="filters.sort_order" (ngModelChange)="onFilterChange()">
+          <option value="desc" *ngIf="filters.sort_by === 'created_at'">Legújabb</option>
+          <option value="asc"  *ngIf="filters.sort_by === 'created_at'">Legrégebbi</option>
+          <option value="asc"  *ngIf="filters.sort_by === 'title'">A → Z</option>
+          <option value="desc" *ngIf="filters.sort_by === 'title'">Z → A</option>
+          <option value="asc"  *ngIf="filters.sort_by === 'price'">Legolcsóbb</option>
+          <option value="desc" *ngIf="filters.sort_by === 'price'">Legdrágább</option>
+        </select>
+      </div>
+
+      <!-- Price range -->
+      <div class="filter-group filter-price">
+        <input
+          type="number"
+          class="filter-input filter-input-price"
+          placeholder="Min ár (Ft)"
+          [(ngModel)]="filters.min_price"
+          (ngModelChange)="onFilterChange()"
+          min="0"
+        />
+        <span class="price-sep">–</span>
+        <input
+          type="number"
+          class="filter-input filter-input-price"
+          placeholder="Max ár (Ft)"
+          [(ngModel)]="filters.max_price"
+          (ngModelChange)="onFilterChange()"
+          min="0"
+        />
+      </div>
+
+      <!-- Reset button -->
+      <button
+        *ngIf="hasActiveFilters"
+        class="btn-reset"
+        (click)="resetFilters()"
+        title="Szűrők törlése"
+      >
+        ✕ Törlés
+      </button>
+    </div>
+
     <!-- Loading State -->
     <div *ngIf="isLoading" class="loading">
       <div class="spinner"></div>
@@ -23,9 +98,12 @@
 
     <!-- Empty State -->
     <div *ngIf="!isLoading && games.length === 0 && !errorMessage" class="empty-state">
+      <div class="empty-icon">🎮</div>
       <h2>Nincs megjeleníthető játék</h2>
-      <p>Adj hozzá egyet!</p>
-      <a *ngIf="authService.isAdmin" routerLink="/admin/game/new" class="btn-add">
+      <p *ngIf="hasActiveFilters">Próbálj más szűrési feltételeket!</p>
+      <p *ngIf="!hasActiveFilters">Adj hozzá egyet!</p>
+      <button *ngIf="hasActiveFilters" class="btn-reset btn-reset-lg" (click)="resetFilters()">Szűrők törlése</button>
+      <a *ngIf="!hasActiveFilters && authService.isAdmin" routerLink="/admin/game/new" class="btn-add">
         + Új játék
       </a>
     </div>
