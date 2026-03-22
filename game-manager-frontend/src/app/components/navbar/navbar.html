@@ -13,7 +13,7 @@
       </a>
 
       <div *ngIf="authService.isLoggedIn" class="nav-links">
-        <a routerLink="/admin/game/new" routerLinkActive="active" class="nav-link">
+        <a *ngIf="authService.isAdmin" routerLink="/admin/game/new" routerLinkActive="active" class="nav-link">
           + Játék hozzáadása
         </a>
         <span class="user-info">{{ authService.currentUserValue?.name }}</span>

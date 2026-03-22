@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { Game, GameRequest, PaginatedGames } from '../models/game.model';
+import { Category, Game, GameRequest, PaginatedGames } from '../models/game.model';
 
 @Injectable({
   providedIn: 'root'
@@ -31,5 +31,9 @@ export class GameService {
 
   deleteGame(id: number): Observable<{ message: string }> {
     return this.http.delete<{ message: string }>(`${this.apiUrl}/${id}`);
+  }
+
+  getCategories(): Observable<Category[]> {
+    return this.http.get<Category[]>(`${environment.apiUrl}/categories`);
   }
 }

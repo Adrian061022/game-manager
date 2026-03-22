@@ -2,6 +2,10 @@ export interface User {
   id: number;
   name: string;
   email: string;
+  role?: string;
+  balance?: number;
+  profile_picture?: string | null;
+  bio?: string | null;
   created_at?: string;
   updated_at?: string;
 }
