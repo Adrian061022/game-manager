@@ -1,1 +1,84 @@
-<p>home works!</p>
+<div class="home-container">
+  <div class="container">
+    <div class="header">
+      <h1>🎮 Game Library</h1>
+      <p *ngIf="total > 0" class="game-count">{{ total }} games available</p>
+    </div>
+
+    <!-- Loading State -->
+    <div *ngIf="isLoading" class="loading">
+      <div class="spinner"></div>
+      <p>Loading games...</p>
+    </div>
+
+    <!-- Error State -->
+    <div *ngIf="errorMessage && !isLoading" class="error-message">
+      {{ errorMessage }}
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="!isLoading && games.length === 0 && !errorMessage" class="empty-state">
+      <div class="empty-icon">📦</div>
+      <h2>No games found</h2>
+      <p>Be the first to add a game!</p>
+      <a *ngIf="authService.isLoggedIn" routerLink="/admin/game/create" class="btn btn-primary">
+        Add Your First Game
+      </a>
+    </div>
+
+    <!-- Games Grid -->
+    <div *ngIf="!isLoading && games.length > 0" class="games-grid">
+      <div *ngFor="let game of games" class="game-card" (click)="viewGame(game.id)">
+        <div class="game-image">
+          <img 
+            [src]="game.cover_image || 'https://via.placeholder.com/460x215/1a1a2e/16213e?text=No+Image'" 
+            [alt]="game.title"
+            loading="lazy"
+          />
+          <div class="game-overlay">
+            <span class="view-details">View Details</span>
+          </div>
+        </div>
+        
+        <div class="game-info">
+          <h3 class="game-title">{{ game.title }}</h3>
+          <p class="game-category">{{ game.category.name }}</p>
+          <div class="game-footer">
+            <span class="game-price">${{ game.price }}</span>
+            <button 
+              *ngIf="authService.isLoggedIn" 
+              (click)="deleteGame(game.id, game.title); $event.stopPropagation()" 
+              class="btn-delete"
+              title="Delete game"
+            >
+              🗑️
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pagination -->
+    <div *ngIf="!isLoading && games.length > 0 && lastPage > 1" class="pagination">
+      <button 
+        (click)="previousPage()" 
+        [disabled]="currentPage === 1"
+        class="btn btn-secondary"
+      >
+        ← Previous
+      </button>
+      
+      <span class="page-info">
+        Page {{ currentPage }} of {{ lastPage }}
+      </span>
+      
+      <button 
+        (click)="nextPage()" 
+        [disabled]="currentPage === lastPage"
+        class="btn btn-secondary"
+      >
+        Next →
+      </button>
+    </div>
+  </div>
+</div>
