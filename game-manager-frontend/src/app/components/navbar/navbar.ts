@@ -17,14 +17,19 @@ export class Navbar {
     private router: Router
   ) {}
 
+  getAvatarUrl(): string {
+    const user = this.authService.currentUserValue;
+    return user?.profile_picture
+      ? user.profile_picture
+      : `https://ui-avatars.com/api/?name=${encodeURIComponent(user?.name ?? 'U')}&background=6366f1&color=fff&size=64`;
+  }
+
   logout(): void {
     this.authService.logout().subscribe({
       next: () => {
         this.router.navigate(['/login']);
       },
-      error: (error) => {
-        console.error('Logout error:', error);
-
+      error: () => {
         localStorage.removeItem('token');
         localStorage.removeItem('currentUser');
         this.router.navigate(['/login']);

@@ -69,4 +69,19 @@ export class AuthService {
   getCurrentUser(): Observable<{ user: User }> {
     return this.http.get<{ user: User }>(`${this.apiUrl}/user`);
   }
+
+  updateProfile(data: { name: string; profile_picture?: string; bio?: string }): Observable<{ message: string; user: User }> {
+    return this.http.put<{ message: string; user: User }>(`${this.apiUrl}/user/profile`, data)
+      .pipe(
+        tap(response => {
+          localStorage.setItem('currentUser', JSON.stringify(response.user));
+          this.currentUserSubject.next(response.user);
+        })
+      );
+  }
+
+  updateCurrentUser(user: User): void {
+    localStorage.setItem('currentUser', JSON.stringify(user));
+    this.currentUserSubject.next(user);
+  }
 }

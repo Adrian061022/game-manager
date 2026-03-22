@@ -1,0 +1,107 @@
+<div class="profile-page">
+  <div class="container">
+
+    <div *ngIf="saveSuccess" class="alert-success global-alert">{{ saveSuccess }}</div>
+
+    <div class="profile-layout">
+
+      <!-- ══ LEFT: Profile card ══ -->
+      <aside class="profile-sidebar">
+        <div class="avatar-wrap">
+          <img [src]="getAvatarUrl()" [alt]="user?.name" class="avatar" />
+        </div>
+
+        <div class="profile-card">
+          <ng-container *ngIf="!isEditMode">
+            <h2 class="profile-name">{{ user?.name }}</h2>
+            <p class="profile-email">{{ user?.email }}</p>
+            <p *ngIf="user?.bio" class="profile-bio">{{ user?.bio }}</p>
+            <p *ngIf="!user?.bio" class="profile-bio empty">Még nincs bemutatkozás.</p>
+
+            <div class="balance-row">
+              <div class="balance-info">
+                <span class="balance-label">Egyenleg</span>
+                <span class="balance-amount">{{ (user?.balance ?? 0) | number:'1.0-0' }} Ft</span>
+              </div>
+              <button class="btn-topup" (click)="showTopUp = true">+ Feltöltés</button>
+            </div>
+
+            <div class="profile-meta">
+              <span class="role-badge" [class.admin]="user?.role === 'admin'">
+                {{ user?.role === 'admin' ? '⚡ Admin' : '👤 Felhasználó' }}
+              </span>
+            </div>
+
+            <button class="btn-edit-profile" (click)="startEdit()">Profil szerkesztése</button>
+          </ng-container>
+
+          <!-- Edit form -->
+          <ng-container *ngIf="isEditMode">
+            <h3 class="edit-title">Profil szerkesztése</h3>
+            <div *ngIf="saveError" class="alert-error">{{ saveError }}</div>
+
+            <div class="form-group">
+              <label>Név</label>
+              <input type="text" [(ngModel)]="editData.name" placeholder="Teljes név" />
+            </div>
+            <div class="form-group">
+              <label>Profilkép URL <span class="optional">(opcionális)</span></label>
+              <input type="url" [(ngModel)]="editData.profile_picture" placeholder="https://..." />
+            </div>
+            <div class="form-group">
+              <label>Bemutatkozás <span class="optional">(opcionális)</span></label>
+              <textarea [(ngModel)]="editData.bio" rows="3" placeholder="Írj magadról..."></textarea>
+            </div>
+
+            <div class="edit-actions">
+              <button class="btn-cancel" (click)="cancelEdit()">Mégse</button>
+              <button class="btn-save" [disabled]="isSaving" (click)="saveProfile()">
+                {{ isSaving ? 'Mentés...' : 'Mentés' }}
+              </button>
+            </div>
+          </ng-container>
+        </div>
+      </aside>
+
+      <!-- ══ RIGHT: Library ══ -->
+      <main class="profile-main">
+        <h2 class="section-title">Könyvtáram
+          <span class="count-badge">{{ libraryGames.length }}</span>
+        </h2>
+
+        <div *ngIf="isLoadingLibrary" class="loading">
+          <div class="spinner"></div>
+          <span>Betöltés...</span>
+        </div>
+
+        <div *ngIf="!isLoadingLibrary && libraryGames.length === 0" class="empty-library">
+          <p>Még nincs a könyvtáradban játék.</p>
+          <a routerLink="/" class="btn-browse">Böngészés a játékok között</a>
+        </div>
+
+        <div class="library-grid" *ngIf="!isLoadingLibrary && libraryGames.length > 0">
+          <div *ngFor="let game of libraryGames" class="library-card" (click)="viewGame(game.id)">
+            <div class="lib-cover">
+              <img
+                [src]="game.cover_image || 'https://via.placeholder.com/300x140/1a1a2e/6366f1?text=No+Image'"
+                [alt]="game.title"
+              />
+              <span class="owned-badge">✓ Megvásárolva</span>
+            </div>
+            <div class="lib-info">
+              <h4>{{ game.title }}</h4>
+              <span class="lib-category">{{ game.category.name }}</span>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+</div>
+
+<!-- Top-up modal -->
+<app-top-up-modal
+  *ngIf="showTopUp"
+  (close)="showTopUp = false"
+  (success)="onBalanceUpdated($event)"
+></app-top-up-modal>
