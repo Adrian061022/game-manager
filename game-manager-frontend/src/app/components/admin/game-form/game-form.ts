@@ -10,7 +10,8 @@ import { GameRequest } from '../../../models/game.model';
   imports: [CommonModule, FormsModule],
   templateUrl: './game-form.html',
   styleUrl: './game-form.scss',
-  standalone: true
+  standalone: true,
+  providers: [GameService]
 })
 export class GameForm implements OnInit {
   gameData: GameRequest = {
@@ -52,21 +53,21 @@ export class GameForm implements OnInit {
   loadGame(id: number): void {
     this.isLoading = true;
     this.gameService.getGame(id).subscribe({
-      next: (response) => {
-        const game = response.data;
-        this.gameData = {
-          title: game.title,
-          description: game.description,
-          price: +game.price,
-          cover_image: game.cover_image || '',
-          category_id: game.category.id
-        };
-        this.isLoading = false;
+      next: (response: { data: GameRequest & { category: { id: number } } }) => {
+      const game = response.data;
+      this.gameData = {
+        title: game.title,
+        description: game.description,
+        price: +game.price,
+        cover_image: game.cover_image || '',
+        category_id: game.category.id
+      };
+      this.isLoading = false;
       },
-      error: (error) => {
-        console.error('Error loading game:', error);
-        this.errorMessage = 'Failed to load game';
-        this.isLoading = false;
+      error: (error: { error?: { message?: string } }) => {
+      console.error('Error loading game:', error);
+      this.errorMessage = 'Failed to load game';
+      this.isLoading = false;
       }
     });
   }
@@ -81,23 +82,23 @@ export class GameForm implements OnInit {
       : this.gameService.createGame(this.gameData);
 
     request.subscribe({
-      next: (response) => {
-        this.successMessage = this.isEditMode 
-          ? 'Game updated successfully!' 
-          : 'Game created successfully!';
-        
-        setTimeout(() => {
-          this.router.navigate(['/game', response.data.id]);
-        }, 1500);
+      next: (response: { data: GameRequest & { id: number } }) => {
+      this.successMessage = this.isEditMode 
+        ? 'Game updated successfully!' 
+        : 'Game created successfully!';
+      
+      setTimeout(() => {
+        this.router.navigate(['/game', response.data.id]);
+      }, 1500);
       },
-      error: (error) => {
-        console.error('Error saving game:', error);
-        this.errorMessage = error.error?.message || 'Failed to save game';
-        if (error.error?.errors) {
-          const errors = Object.values(error.error.errors).flat();
-          this.errorMessage = errors.join(', ');
-        }
-        this.isLoading = false;
+      error: (error: { error?: { message?: string; errors?: Record<string, string[]> } }) => {
+      console.error('Error saving game:', error);
+      this.errorMessage = error.error?.message || 'Failed to save game';
+      if (error.error?.errors) {
+        const errors = Object.values(error.error.errors).flat();
+        this.errorMessage = errors.join(', ');
+      }
+      this.isLoading = false;
       }
     });
   }
