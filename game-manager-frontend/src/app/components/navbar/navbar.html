@@ -1,1 +1,29 @@
-<p>navbar works!</p>
+<nav class="navbar">
+  <div class="container">
+    <div class="navbar-brand">
+      <a routerLink="/" class="logo">
+        <span class="logo-icon">&#9679;</span>
+        <span class="logo-text">Game<span>Manager</span></span>
+      </a>
+    </div>
+
+    <div class="navbar-menu">
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-link">
+        Főoldal
+      </a>
+
+      <div *ngIf="authService.isLoggedIn" class="nav-links">
+        <a routerLink="/admin/game/new" routerLinkActive="active" class="nav-link">
+          + Játék hozzáadása
+        </a>
+        <span class="user-info">{{ authService.currentUserValue?.name }}</span>
+        <button (click)="logout()" class="btn-logout">Kijelentk.</button>
+      </div>
+
+      <div *ngIf="!authService.isLoggedIn" class="nav-links">
+        <a routerLink="/login" routerLinkActive="active" class="nav-link">Bejelentkezés</a>
+        <a routerLink="/register" routerLinkActive="active" class="nav-link btn-register">Regisztráció</a>
+      </div>
+    </div>
+  </div>
+</nav>

@@ -1,8 +1,13 @@
 <div class="home-container">
   <div class="container">
-    <div class="header">
-      <h1>🎮 Game Library</h1>
-      <p *ngIf="total > 0" class="game-count">{{ total }} games available</p>
+    <div class="header-actions">
+      <div class="page-header">
+        <h1>Játékok</h1>
+        <p class="subtitle" *ngIf="total > 0">{{ total }} játék elérhető</p>
+      </div>
+      <a *ngIf="authService.isLoggedIn" routerLink="/admin/game/new" class="btn-add">
+        + Új játék
+      </a>
     </div>
 
     <!-- Loading State -->
@@ -18,11 +23,10 @@
 
     <!-- Empty State -->
     <div *ngIf="!isLoading && games.length === 0 && !errorMessage" class="empty-state">
-      <div class="empty-icon">📦</div>
-      <h2>No games found</h2>
-      <p>Be the first to add a game!</p>
-      <a *ngIf="authService.isLoggedIn" routerLink="/admin/game/create" class="btn btn-primary">
-        Add Your First Game
+      <h2>Nincs megjeleníthető játék</h2>
+      <p>Adj hozzá egyet!</p>
+      <a *ngIf="authService.isLoggedIn" routerLink="/admin/game/new" class="btn-add">
+        + Új játék
       </a>
     </div>
 
@@ -44,15 +48,13 @@
           <h3 class="game-title">{{ game.title }}</h3>
           <p class="game-category">{{ game.category.name }}</p>
           <div class="game-footer">
-            <span class="game-price">${{ game.price }}</span>
-            <button 
-              *ngIf="authService.isLoggedIn" 
-              (click)="deleteGame(game.id, game.title); $event.stopPropagation()" 
+            <span class="game-price">{{ game.price }} Ft</span>
+            <button
+              *ngIf="authService.isLoggedIn"
+              (click)="deleteGame(game.id, game.title); $event.stopPropagation()"
               class="btn-delete"
-              title="Delete game"
-            >
-              🗑️
-            </button>
+              title="Törlés"
+            >✕</button>
           </div>
         </div>
       </div>
@@ -60,24 +62,20 @@
 
     <!-- Pagination -->
     <div *ngIf="!isLoading && games.length > 0 && lastPage > 1" class="pagination">
-      <button 
-        (click)="previousPage()" 
+      <button
+        (click)="previousPage()"
         [disabled]="currentPage === 1"
-        class="btn btn-secondary"
       >
-        ← Previous
+        &larr; Előző
       </button>
       
-      <span class="page-info">
-        Page {{ currentPage }} of {{ lastPage }}
-      </span>
+      <span class="page-info">{{ currentPage }} / {{ lastPage }}</span>
       
-      <button 
-        (click)="nextPage()" 
+      <button
+        (click)="nextPage()"
         [disabled]="currentPage === lastPage"
-        class="btn btn-secondary"
       >
-        Next →
+        Következő &rarr;
       </button>
     </div>
   </div>

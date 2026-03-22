@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { GameService } from '../../services/game.service';
 import { AuthService } from '../../services/auth.service';
 import { Game, PaginatedGames } from '../../models/game.model';
 
 @Component({
   selector: 'app-home',
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './home.html',
-  styleUrl: './home.scss',
+  styleUrl: './home.css',
   standalone: true
 })
 export class Home implements OnInit {

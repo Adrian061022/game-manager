@@ -1,1 +1,94 @@
-<p>register works!</p>
+<div class="auth-container">
+  <div class="auth-card">
+    <div class="auth-header">
+      <h1>🎮 Register</h1>
+      <p>Create your GameStore account</p>
+    </div>
+
+    <form (ngSubmit)="onSubmit()" #registerForm="ngForm" class="auth-form">
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          [(ngModel)]="userData.name"
+          required
+          minlength="3"
+          class="form-control"
+          placeholder="Your name"
+          [disabled]="isLoading"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          [(ngModel)]="userData.email"
+          required
+          email
+          class="form-control"
+          placeholder="your@email.com"
+          [disabled]="isLoading"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          [(ngModel)]="userData.password"
+          required
+          minlength="8"
+          class="form-control"
+          placeholder="Min. 8 characters"
+          [disabled]="isLoading"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="password_confirmation">Confirm Password</label>
+        <input
+          type="password"
+          id="password_confirmation"
+          name="password_confirmation"
+          [(ngModel)]="userData.password_confirmation"
+          required
+          minlength="8"
+          class="form-control"
+          placeholder="Repeat password"
+          [disabled]="isLoading"
+        />
+      </div>
+
+      <div *ngIf="errorMessage" class="error-message">
+        {{ errorMessage }}
+      </div>
+
+      <div *ngIf="successMessage" class="success-message">
+        {{ successMessage }}
+      </div>
+
+      <button
+        type="submit"
+        class="btn btn-primary"
+        [disabled]="!registerForm.form.valid || isLoading"
+      >
+        <span *ngIf="!isLoading">Register</span>
+        <span *ngIf="isLoading">Creating account...</span>
+      </button>
+
+      <div class="auth-footer">
+        <p>
+          Already have an account?
+          <a routerLink="/login" class="link">Login here</a>
+        </p>
+      </div>
+    </form>
+  </div>
+</div>

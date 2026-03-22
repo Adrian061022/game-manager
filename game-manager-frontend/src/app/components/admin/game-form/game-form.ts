@@ -3,13 +3,13 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { GameService } from '../../../services/game.service';
-import { GameRequest } from '../../../models/game.model';
+import { GameRequest, Game } from '../../../models/game.model';
 
 @Component({
   selector: 'app-game-form',
   imports: [CommonModule, FormsModule],
   templateUrl: './game-form.html',
-  styleUrl: './game-form.scss',
+  styleUrl: './game-form.css',
   standalone: true,
   providers: [GameService]
 })
@@ -53,7 +53,7 @@ export class GameForm implements OnInit {
   loadGame(id: number): void {
     this.isLoading = true;
     this.gameService.getGame(id).subscribe({
-      next: (response: { data: GameRequest & { category: { id: number } } }) => {
+      next: (response: { data: Game }) => {
       const game = response.data;
       this.gameData = {
         title: game.title,
@@ -82,7 +82,7 @@ export class GameForm implements OnInit {
       : this.gameService.createGame(this.gameData);
 
     request.subscribe({
-      next: (response: { data: GameRequest & { id: number } }) => {
+      next: (response: { data: Game }) => {
       this.successMessage = this.isEditMode 
         ? 'Game updated successfully!' 
         : 'Game created successfully!';
