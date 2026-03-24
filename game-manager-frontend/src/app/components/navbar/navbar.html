@@ -17,6 +17,10 @@
           + Játék hozzáadása
         </a>
         <span class="nav-balance" title="Egyenleg">{{ (authService.currentUserValue?.balance ?? 0) | number:'1.0-0' }} Ft</span>
+        <button class="nav-cart" (click)="showCart = true" title="Kosár">
+          🛒
+          <span class="cart-badge" *ngIf="cartService.count > 0">{{ cartService.count }}</span>
+        </button>
         <a routerLink="/profile" class="nav-avatar" title="Profilom">
           <img [src]="getAvatarUrl()" [alt]="authService.currentUserValue?.name" class="nav-avatar-img" />
           <span class="nav-username">{{ authService.currentUserValue?.name }}</span>
@@ -31,3 +35,5 @@
     </div>
   </div>
 </nav>
+
+<app-cart-modal *ngIf="showCart" (close)="showCart = false"></app-cart-modal>

@@ -50,13 +50,16 @@
           </div>
 
           <div *ngIf="authService.isLoggedIn && !ownsGame">
-            <button class="btn-buy" [disabled]="isPurchasing" (click)="purchase()">
-              {{ isPurchasing ? 'Feldolgozás...' : 'Megvásárlás' }}
-            </button>
+            <ng-container *ngIf="cartService.isInCart(game.id); else addToCartBtn">
+              <div class="in-cart-actions">
+                <span class="in-cart-badge">🛒 Kosárban van</span>
+                <button class="btn-cart-remove" (click)="removeFromCart()">Eltávolítás</button>
+              </div>
+            </ng-container>
+            <ng-template #addToCartBtn>
+              <button class="btn-buy" (click)="addToCart()">Kosárba</button>
+            </ng-template>
           </div>
-
-          <div *ngIf="purchaseSuccess" class="alert-success">{{ purchaseSuccess }}</div>
-          <div *ngIf="purchaseError" class="alert-error">{{ purchaseError }}</div>
         </div>
 
         <!-- Rating Summary -->

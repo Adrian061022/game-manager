@@ -1,0 +1,189 @@
+<div class="modal-backdrop" (click)="dismiss()">
+  <div class="modal-card" (click)="$event.stopPropagation()">
+
+    <!-- ── Header ── -->
+    <div class="modal-header">
+      <div class="modal-title">
+        <span class="chip">🛒</span>
+        <h2>{{ step === 'payment' ? 'Fizetés' : 'Kosár' }}</h2>
+      </div>
+      <button class="btn-close" (click)="dismiss()" [disabled]="step === 'processing'">✕</button>
+    </div>
+
+    <!-- ════════════ CART STEP ════════════ -->
+    <ng-container *ngIf="step === 'cart'">
+      <div class="modal-body">
+
+        <!-- Empty state -->
+        <div *ngIf="items.length === 0" class="empty-cart">
+          <div class="empty-icon">🛒</div>
+          <p>A kosár üres.</p>
+          <small>Böngéssz a játékok között, és add hozzá a kívántakat!</small>
+        </div>
+
+        <!-- Cart items -->
+        <div *ngFor="let game of items" class="cart-item">
+          <img
+            [src]="game.cover_image || 'https://placehold.co/48x48/1a1a2e/94a3b8?text=G'"
+            [alt]="game.title"
+            class="cart-item-cover"
+          />
+          <div class="cart-item-info">
+            <div class="cart-item-title">{{ game.title }}</div>
+            <div class="cart-item-category">{{ game.category.name }}</div>
+          </div>
+          <div class="cart-item-price">{{ game.price | number:'1.0-0' }} Ft</div>
+          <button class="btn-remove-item" (click)="removeItem(game.id)" title="Eltávolítás">✕</button>
+        </div>
+
+        <!-- Total -->
+        <ng-container *ngIf="items.length > 0">
+          <div class="divider"><span>Összesen</span></div>
+          <div class="cart-totals">
+            <div class="total-row">
+              <span class="total-label">Fizetendő összeg</span>
+              <span class="total-amount">{{ total | number:'1.0-0' }} Ft</span>
+            </div>
+            <div class="balance-row">
+              <span class="balance-label">Egyenleged</span>
+              <span
+                class="balance-amount"
+                [class.insufficient]="(authService.currentUserValue?.balance ?? 0) < total"
+              >
+                {{ (authService.currentUserValue?.balance ?? 0) | number:'1.0-0' }} Ft
+              </span>
+            </div>
+          </div>
+        </ng-container>
+
+      </div>
+
+      <div class="modal-footer" *ngIf="items.length > 0">
+        <button class="btn-cancel" (click)="dismiss()">Mégse</button>
+        <button class="btn-pay" (click)="checkout()">
+          Fizetés — {{ total | number:'1.0-0' }} Ft
+        </button>
+      </div>
+      <div class="modal-footer" *ngIf="items.length === 0">
+        <button class="btn-cancel" style="flex:1" (click)="dismiss()">Bezárás</button>
+      </div>
+    </ng-container>
+
+    <!-- ════════════ PAYMENT STEP ════════════ -->
+    <ng-container *ngIf="step === 'payment'">
+      <div class="modal-body">
+
+        <div *ngIf="errorMessage" class="alert-error">{{ errorMessage }}</div>
+
+        <div class="payment-summary">
+          <span class="payment-summary-label">Vásárlás összege</span>
+          <span class="payment-summary-amount">{{ total | number:'1.0-0' }} Ft</span>
+        </div>
+
+        <div class="divider"><span>Kártyaadatok</span></div>
+
+        <!-- Card preview -->
+        <div class="card-preview">
+          <div class="card-chip">▐▌</div>
+          <div class="card-number-preview">
+            {{ card.number || '•••• •••• •••• ••••' }}
+          </div>
+          <div class="card-bottom">
+            <div>
+              <div class="card-label">KÁRTYABIRTOKOS</div>
+              <div class="card-value">{{ card.name || 'TELJES NÉV' }}</div>
+            </div>
+            <div>
+              <div class="card-label">LEJÁRAT</div>
+              <div class="card-value">{{ card.expiry || 'HH/ÉÉ' }}</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card fields -->
+        <div class="field-group">
+          <label class="field-label">Kártyaszám</label>
+          <input
+            type="text"
+            [value]="card.number"
+            (input)="formatCardNumber($event)"
+            placeholder="0000 0000 0000 0000"
+            maxlength="19"
+            inputmode="numeric"
+          />
+        </div>
+
+        <div class="field-group">
+          <label class="field-label">Kártyabirtokos neve</label>
+          <input
+            type="text"
+            [(ngModel)]="card.name"
+            placeholder="Kis János"
+            maxlength="50"
+          />
+        </div>
+
+        <div class="field-row">
+          <div class="field-group">
+            <label class="field-label">Lejárat</label>
+            <input
+              type="text"
+              [value]="card.expiry"
+              (input)="formatExpiry($event)"
+              placeholder="HH/ÉÉ"
+              maxlength="5"
+              inputmode="numeric"
+            />
+          </div>
+          <div class="field-group">
+            <label class="field-label">CVV</label>
+            <input
+              type="password"
+              [(ngModel)]="card.cvv"
+              placeholder="•••"
+              maxlength="4"
+              inputmode="numeric"
+            />
+          </div>
+        </div>
+
+        <p class="demo-note">⚠️ Ez egy szimulált fizetés — valódi terhelés nem történik.</p>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-back" (click)="backToCart()">← Vissza</button>
+        <button
+          class="btn-pay"
+          [disabled]="!isFormValid()"
+          (click)="submitPayment()"
+        >
+          Vásárlás — {{ total | number:'1.0-0' }} Ft
+        </button>
+      </div>
+    </ng-container>
+
+    <!-- ════════════ PROCESSING STEP ════════════ -->
+    <ng-container *ngIf="step === 'processing'">
+      <div class="status-body">
+        <div class="processing-ring">
+          <div class="ring-inner"></div>
+        </div>
+        <h3>Feldolgozás...</h3>
+        <p>Kérjük, ne zárja be az ablakot.</p>
+      </div>
+    </ng-container>
+
+    <!-- ════════════ SUCCESS STEP ════════════ -->
+    <ng-container *ngIf="step === 'success'">
+      <div class="status-body">
+        <div class="success-icon">✓</div>
+        <h3>Sikeres vásárlás!</h3>
+        <p>A megvásárolt játékok hozzáadva a könyvtáradhoz.</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-pay" style="flex:1" (click)="dismiss()">Bezárás</button>
+      </div>
+    </ng-container>
+
+  </div>
+</div>

@@ -6,6 +6,7 @@ import { GameService } from '../../services/game.service';
 import { ReviewService } from '../../services/review.service';
 import { LibraryService } from '../../services/library.service';
 import { AuthService } from '../../services/auth.service';
+import { CartService } from '../../services/cart.service';
 import { Game } from '../../models/game.model';
 import { Review, ReviewRequest } from '../../models/review.model';
 
@@ -23,10 +24,7 @@ export class GameDetails implements OnInit {
   totalReviews: number = 0;
   ownsGame: boolean = false;
   isLoading: boolean = true;
-  isPurchasing: boolean = false;
   errorMessage: string = '';
-  purchaseError: string = '';
-  purchaseSuccess: string = '';
 
   newReview: ReviewRequest = { rating: 5, comment: '' };
   submittingReview: boolean = false;
@@ -39,7 +37,8 @@ export class GameDetails implements OnInit {
     private gameService: GameService,
     private reviewService: ReviewService,
     private libraryService: LibraryService,
-    public authService: AuthService
+    public authService: AuthService,
+    public cartService: CartService
   ) {}
 
   ngOnInit(): void {
@@ -93,20 +92,15 @@ export class GameDetails implements OnInit {
 
   purchase(): void {
     if (!this.game) return;
-    this.isPurchasing = true;
-    this.purchaseError = '';
-    this.purchaseSuccess = '';
-    this.libraryService.purchase(this.game.id).subscribe({
-      next: (response) => {
-        this.ownsGame = true;
-        this.purchaseSuccess = response.message;
-        this.isPurchasing = false;
-      },
-      error: (error) => {
-        this.purchaseError = error.error?.message || 'Vásárlás sikertelen.';
-        this.isPurchasing = false;
-      }
-    });
+    this.cartService.addToCart(this.game);
+  }
+
+  addToCart(): void {
+    if (this.game) this.cartService.addToCart(this.game);
+  }
+
+  removeFromCart(): void {
+    if (this.game) this.cartService.removeFromCart(this.game.id);
   }
 
   submitReview(): void {
