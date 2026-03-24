@@ -32,12 +32,20 @@ class GameController extends Controller
             $query->where('category_id', $request->input('category_id'));
         }
 
+        // Filter by price range
+        if ($request->filled('min_price')) {
+            $query->where('price', '>=', (float) $request->input('min_price'));
+        }
+        if ($request->filled('max_price')) {
+            $query->where('price', '<=', (float) $request->input('max_price'));
+        }
+
         // Sort by created_at (newest/oldest) or price
         $sortBy = $request->input('sort_by', 'created_at');
         $sortOrder = $request->input('sort_order', 'desc');
         
         if (in_array($sortBy, ['created_at', 'price', 'title'])) {
-            $query->orderBy($sortBy, $sortOrder);
+            $query->orderBy($sortBy, in_array($sortOrder, ['asc', 'desc']) ? $sortOrder : 'desc');
         } else {
             $query->latest();
         }

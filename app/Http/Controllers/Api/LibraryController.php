@@ -66,7 +66,7 @@ class LibraryController extends Controller
     public function addFunds(Request $request)
     {
         $request->validate([
-            'amount' => 'required|numeric|min:1|max:10000'
+            'amount' => 'required|numeric|min:100|max:500000'
         ]);
 
         $user = $request->user();
