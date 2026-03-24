@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\GameResource;
 use App\Models\Game;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
 
 class LibraryController extends Controller
@@ -48,6 +49,13 @@ class LibraryController extends Controller
                 'purchased_at' => now()
             ]);
 
+            Transaction::create([
+                'user_id' => $user->id,
+                'type'    => 'purchase',
+                'amount'  => $game->price,
+                'game_id' => $game->id,
+            ]);
+
             return response()->json([
                 'message' => 'Game purchased successfully',
                 'data' => new GameResource($game->load('category')),
@@ -71,6 +79,13 @@ class LibraryController extends Controller
 
         $user = $request->user();
         $user->addBalance($request->amount);
+
+        Transaction::create([
+            'user_id' => $user->id,
+            'type'    => 'top_up',
+            'amount'  => $request->amount,
+            'game_id' => null,
+        ]);
 
         return response()->json([
             'message' => 'Funds added successfully',

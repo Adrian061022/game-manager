@@ -16,6 +16,9 @@
         <a *ngIf="authService.isAdmin" routerLink="/admin/game/new" routerLinkActive="active" class="nav-link">
           + Játék hozzáadása
         </a>
+        <a *ngIf="authService.isAdmin" routerLink="/admin/transactions" routerLinkActive="active" class="nav-link">
+          Tranzakciók
+        </a>
         <span class="nav-balance" title="Egyenleg">{{ (authService.currentUserValue?.balance ?? 0) | number:'1.0-0' }} Ft</span>
         <button class="nav-cart" (click)="showCart = true" title="Kosár">
           🛒

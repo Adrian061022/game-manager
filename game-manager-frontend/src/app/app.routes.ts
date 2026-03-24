@@ -6,6 +6,7 @@ import { Register } from './components/register/register';
 import { GameDetails } from './components/game-details/game-details';
 import { GameForm } from './components/admin/game-form/game-form';
 import { Profile } from './components/profile/profile';
+import { Transactions } from './components/admin/transactions/transactions';
 
 export const routes: Routes = [
   {
@@ -45,6 +46,12 @@ export const routes: Routes = [
     component: GameForm,
     canActivate: [authGuard],
     title: 'Edit Game - Game Manager'
+  },
+  {
+    path: 'admin/transactions',
+    component: Transactions,
+    canActivate: [authGuard],
+    title: 'Tranzakciók - Game Manager'
   },
   {
     path: '**',

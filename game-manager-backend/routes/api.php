@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\GameController;
 use App\Http\Controllers\Api\LibraryController;
 use App\Http\Controllers\Api\ReviewController;
+use App\Http\Controllers\Api\TransactionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -44,10 +45,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/games/{game}/reviews/{review}', [ReviewController::class, 'update']);
     Route::delete('/games/{game}/reviews/{review}', [ReviewController::class, 'destroy']);
     
-    // Admin only - Game management
+    // Admin only - Game management + transactions
     Route::middleware('admin')->group(function () {
         Route::post('/games', [GameController::class, 'store']);
         Route::put('/games/{game}', [GameController::class, 'update']);
         Route::delete('/games/{game}', [GameController::class, 'destroy']);
+        Route::get('/admin/transactions', [TransactionController::class, 'index']);
     });
 });
