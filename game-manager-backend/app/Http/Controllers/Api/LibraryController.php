@@ -34,38 +34,42 @@ class LibraryController extends Controller
             ], 400);
         }
 
-        // Check if user has enough balance
-        if ($user->balance < $game->price) {
-            return response()->json([
-                'message' => 'Insufficient balance. Please add funds to your account.',
-                'required' => $game->price,
-                'current_balance' => $user->balance
-            ], 400);
+        // Get payment method from request (default: 'balance')
+        $paymentMethod = $request->input('payment_method', 'balance');
+
+        // Only check and deduct balance if paying with balance
+        if ($paymentMethod === 'balance') {
+            // Check if user has enough balance
+            if ($user->balance < $game->price) {
+                return response()->json([
+                    'message' => 'Insufficient balance. Please add funds to your account.',
+                    'required' => $game->price,
+                    'current_balance' => $user->balance
+                ], 400);
+            }
+
+            // Deduct price from balance
+            $user->deductBalance($game->price);
         }
 
-        // Deduct price from balance and add game to library
-        if ($user->deductBalance($game->price)) {
-            $user->games()->attach($game->id, [
-                'purchased_at' => now()
-            ]);
+        // Add game to library
+        $user->games()->attach($game->id, [
+            'purchased_at' => now()
+        ]);
 
-            Transaction::create([
-                'user_id' => $user->id,
-                'type'    => 'purchase',
-                'amount'  => $game->price,
-                'game_id' => $game->id,
-            ]);
-
-            return response()->json([
-                'message' => 'Game purchased successfully',
-                'data' => new GameResource($game->load('category')),
-                'new_balance' => $user->fresh()->balance
-            ], 201);
-        }
+        Transaction::create([
+            'user_id' => $user->id,
+            'type'    => 'purchase',
+            'amount'  => $game->price,
+            'game_id' => $game->id,
+            'payment_method' => $paymentMethod,
+        ]);
 
         return response()->json([
-            'message' => 'Purchase failed'
-        ], 500);
+            'message' => 'Game purchased successfully',
+            'data' => new GameResource($game->load('category')),
+            'new_balance' => $user->fresh()->balance
+        ], 201);
     }
 
     /**

@@ -20,9 +20,10 @@ export class LibraryService {
     return this.http.get<{ data: Game[] }>(`${this.apiUrl}/users/${userId}/library`);
   }
 
-  purchase(gameId: number): Observable<{ message: string; data: Game; new_balance: number }> {
+  purchase(gameId: number, paymentMethod: 'balance' | 'card' = 'balance'): Observable<{ message: string; data: Game; new_balance: number }> {
     return this.http.post<{ message: string; data: Game; new_balance: number }>(
-      `${this.apiUrl}/library/purchase/${gameId}`, {}
+      `${this.apiUrl}/library/purchase/${gameId}`, 
+      { payment_method: paymentMethod }
     );
   }
 

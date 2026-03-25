@@ -97,7 +97,7 @@ export class CartModal implements OnInit, OnDestroy {
     const purchasedTotal = this.total;
 
     setTimeout(() => {
-      forkJoin(this.items.map(g => this.libraryService.purchase(g.id))).subscribe({
+      forkJoin(this.items.map(g => this.libraryService.purchase(g.id, this.paymentMethod))).subscribe({
         next: () => {
           const user = this.authService.currentUserValue!;
           
