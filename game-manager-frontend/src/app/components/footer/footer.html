@@ -1,0 +1,39 @@
+<footer class="footer">
+  <div class="container">
+    <div class="footer-content">
+      <div class="footer-section">
+        <h3 class="footer-brand">Game Manager</h3>
+        <p class="footer-description">
+          A legjobb platform digitális játékok vásárlására és kezelésére.
+        </p>
+      </div>
+
+      <div class="footer-section">
+        <h4 class="footer-title">Linkek</h4>
+        <ul class="footer-links">
+          <li><a routerLink="/">Főoldal</a></li>
+          <li><a routerLink="/profile">Profilom</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-section">
+        <h4 class="footer-title">Információ</h4>
+        <ul class="footer-links">
+          <li><a href="#" (click)="$event.preventDefault()">Általános Szerződési Feltételek</a></li>
+          <li><a href="#" (click)="$event.preventDefault()">Adatvédelem</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-section">
+        <h4 class="footer-title">Kapcsolat</h4>
+        <ul class="footer-links">
+          <li><a href="mailto:support@gamemanager.com">support&#64;gamemanager.com</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy; {{ currentYear }} Game Manager. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
