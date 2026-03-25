@@ -1,0 +1,107 @@
+<div class="form-page">
+  <div class="form-card">
+    <h1>{{ isEditMode ? 'Játék szerkesztése' : 'Új játék hozzáadása' }}</h1>
+
+    <div *ngIf="isLoading" class="loading">
+      <div class="spinner"></div>
+      <p>{{ isEditMode ? 'Betöltés...' : 'Mentés...' }}</p>
+    </div>
+
+    <div *ngIf="errorMessage" class="alert-error">{{ errorMessage }}</div>
+    <div *ngIf="successMessage" class="alert-success">{{ successMessage }}</div>
+
+    <form *ngIf="!isLoading" (ngSubmit)="onSubmit()" #gameForm="ngForm">
+      <div class="form-group">
+        <label for="title">Játék neve *</label>
+        <input
+          type="text"
+          id="title"
+          name="title"
+          [(ngModel)]="gameData.title"
+          required
+          minlength="3"
+          placeholder="pl. The Witcher 3"
+          #title="ngModel"
+        />
+        <div *ngIf="title.invalid && title.touched" class="field-error">
+          <small *ngIf="title.errors?.['required']">Kötelező mező</small>
+          <small *ngIf="title.errors?.['minlength']">Legalább 3 karakter szükséges</small>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="description">Leírás *</label>
+        <textarea
+          id="description"
+          name="description"
+          [(ngModel)]="gameData.description"
+          required
+          minlength="10"
+          rows="5"
+          placeholder="Rövid leírás a játékról..."
+          #description="ngModel"
+        ></textarea>
+        <div *ngIf="description.invalid && description.touched" class="field-error">
+          <small *ngIf="description.errors?.['required']">Kötelező mező</small>
+          <small *ngIf="description.errors?.['minlength']">Legalább 10 karakter szükséges</small>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="price">Ár (Ft) *</label>
+          <input
+            type="number"
+            id="price"
+            name="price"
+            [(ngModel)]="gameData.price"
+            required
+            min="0"
+            step="1"
+            placeholder="4990"
+            #price="ngModel"
+          />
+          <div *ngIf="price.invalid && price.touched" class="field-error">
+            <small *ngIf="price.errors?.['required']">Kötelező mező</small>
+            <small *ngIf="price.errors?.['min']">Az ár nem lehet negatív</small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="category">Kategória *</label>
+          <select
+            id="category"
+            name="category"
+            [(ngModel)]="gameData.category_id"
+            required
+            #category="ngModel"
+          >
+            <option *ngFor="let cat of categories" [value]="cat.id">{{ cat.name }}</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="cover_image">Borítókép URL <span class="optional">(opcionális)</span></label>
+        <input
+          type="url"
+          id="cover_image"
+          name="cover_image"
+          [(ngModel)]="gameData.cover_image"
+          placeholder="https://..."
+        />
+      </div>
+
+      <div *ngIf="gameData.cover_image" class="image-preview">
+        <img [src]="gameData.cover_image" alt="Előnézet" />
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn-cancel" (click)="cancel()">Mégse</button>
+        <button type="submit" class="btn-submit" [disabled]="gameForm.invalid || isLoading">
+          {{ isEditMode ? 'Mentés' : 'Létrehozás' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

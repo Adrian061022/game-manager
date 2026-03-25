@@ -1,0 +1,76 @@
+<div class="auth-page">
+  <div class="auth-card">
+    <div class="auth-brand">
+      <span class="brand-dot"></span>
+      <span class="brand-name">GameManager</span>
+    </div>
+
+    <h2>Regisztráció</h2>
+    <p class="auth-sub">Van már fiókod? <a routerLink="/login">Jelentkezz be</a></p>
+
+    <form (ngSubmit)="onSubmit()" #registerForm="ngForm">
+      <div class="form-group">
+        <label for="name">Név</label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          [(ngModel)]="userData.name"
+          required
+          minlength="3"
+          placeholder="Teljes neved"
+          [disabled]="isLoading"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email-cím</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          [(ngModel)]="userData.email"
+          required
+          email
+          placeholder="pelda@email.hu"
+          [disabled]="isLoading"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="password">Jelszó</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          [(ngModel)]="userData.password"
+          required
+          minlength="8"
+          placeholder="Legalább 8 karakter"
+          [disabled]="isLoading"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="password_confirmation">Jelszó megerősítése</label>
+        <input
+          type="password"
+          id="password_confirmation"
+          name="password_confirmation"
+          [(ngModel)]="userData.password_confirmation"
+          required
+          minlength="8"
+          placeholder="Jelszó mégegyszer"
+          [disabled]="isLoading"
+        />
+      </div>
+
+      <div *ngIf="errorMessage" class="alert-error">{{ errorMessage }}</div>
+      <div *ngIf="successMessage" class="alert-success">{{ successMessage }}</div>
+
+      <button type="submit" class="btn-submit" [disabled]="registerForm.form.invalid || isLoading">
+        {{ isLoading ? 'Regisztráció...' : 'Fiók létrehozása' }}
+      </button>
+    </form>
+  </div>
+</div>

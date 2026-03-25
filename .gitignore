@@ -1,0 +1,21 @@
+# Backend
+game-manager-backend/vendor/
+game-manager-backend/node_modules/
+game-manager-backend/.env
+game-manager-backend/.env.backup
+game-manager-backend/storage/*.key
+game-manager-backend/storage/pail/
+game-manager-backend/public/build/
+game-manager-backend/public/hot/
+game-manager-backend/public/storage/
+game-manager-backend/.phpunit.cache/
+game-manager-backend/.phpunit.result.cache
+
+# Frontend
+game-manager-frontend/node_modules/
+game-manager-frontend/dist/
+game-manager-frontend/.angular/
+
+# General
+.DS_Store
+*.log

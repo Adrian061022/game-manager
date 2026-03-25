@@ -1,0 +1,88 @@
+<div class="transactions-container">
+  <div class="container">
+
+    <!-- Header -->
+    <div class="page-header">
+      <div>
+        <h1>Tranzakciók</h1>
+        <p class="subtitle" *ngIf="!isLoading">{{ total }} bejegyzés összesen</p>
+      </div>
+      <div class="filter-bar">
+        <button
+          class="filter-btn"
+          [class.active]="selectedType === ''"
+          (click)="filterBy('')"
+        >Összes</button>
+        <button
+          class="filter-btn filter-purchase"
+          [class.active]="selectedType === 'purchase'"
+          (click)="filterBy('purchase')"
+        >Vásárlások</button>
+        <button
+          class="filter-btn filter-topup"
+          [class.active]="selectedType === 'top_up'"
+          (click)="filterBy('top_up')"
+        >Feltöltések</button>
+      </div>
+    </div>
+
+    <!-- Loading -->
+    <div *ngIf="isLoading" class="loading">
+      <div class="spinner"></div>
+      <p>Betöltés...</p>
+    </div>
+
+    <!-- Error -->
+    <div *ngIf="errorMessage && !isLoading" class="alert-error">
+      {{ errorMessage }}
+    </div>
+
+    <!-- Table -->
+    <div *ngIf="!isLoading && !errorMessage" class="table-wrapper">
+
+      <div *ngIf="transactions.length === 0" class="empty-state">
+        <p>Nincsenek tranzakciók.</p>
+      </div>
+
+      <table *ngIf="transactions.length > 0" class="tx-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Típus</th>
+            <th>Felhasználó</th>
+            <th>Játék</th>
+            <th>Összeg</th>
+            <th>Dátum</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let tx of transactions">
+            <td class="td-id">{{ tx.id }}</td>
+            <td>
+              <span class="badge" [class.badge-purchase]="tx.type === 'purchase'" [class.badge-topup]="tx.type === 'top_up'">
+                {{ tx.type === 'purchase' ? '🛒 Vásárlás' : '💳 Feltöltés' }}
+              </span>
+            </td>
+            <td class="td-user">
+              <span class="user-name">{{ tx.user?.name ?? '—' }}</span>
+              <span class="user-email">{{ tx.user?.email ?? '' }}</span>
+            </td>
+            <td class="td-game">{{ tx.game?.title ?? '—' }}</td>
+            <td class="td-amount" [class.amount-purchase]="tx.type === 'purchase'" [class.amount-topup]="tx.type === 'top_up'">
+              {{ tx.type === 'purchase' ? '-' : '+' }}{{ formatAmount(tx.amount) }}
+            </td>
+            <td class="td-date">{{ tx.created_at | date:'yyyy.MM.dd. HH:mm' }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pagination -->
+    <div *ngIf="!isLoading && lastPage > 1" class="pagination">
+      <button class="page-btn" [disabled]="currentPage === 1" (click)="goToPage(currentPage - 1)">← Előző</button>
+      <span class="page-info">{{ currentPage }} / {{ lastPage }}</span>
+      <button class="page-btn" [disabled]="currentPage === lastPage" (click)="goToPage(currentPage + 1)">Következő →</button>
+    </div>
+
+  </div>
+</div>
