@@ -104,4 +104,30 @@ class LibraryController extends Controller
             'owns' => $owns
         ]);
     }
+
+    /**
+     * Get a user's public library by user ID
+     */
+    public function getUserLibrary($userId)
+    {
+        $user = \App\Models\User::find($userId);
+
+        if (!$user) {
+            return response()->json([
+                'message' => 'User not found'
+            ], 404);
+        }
+
+        // Check if profile is public
+        if (!$user->is_public) {
+            return response()->json([
+                'message' => 'This user\'s profile is private',
+                'data' => []
+            ], 403);
+        }
+
+        $games = $user->games()->with('category')->get();
+
+        return GameResource::collection($games);
+    }
 }

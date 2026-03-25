@@ -20,6 +20,7 @@ Route::get('/categories', function () {
     return \App\Models\Category::select('id', 'name', 'slug')->get();
 });
 Route::get('/users/{id}', [AuthController::class, 'getUserById']);
+Route::get('/users/{id}/library', [LibraryController::class, 'getUserLibrary']);
 
 // Reviews (public - anyone can view)
 Route::get('/games/{game}/reviews', [ReviewController::class, 'index']);

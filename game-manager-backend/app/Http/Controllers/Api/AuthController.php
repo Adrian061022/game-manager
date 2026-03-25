@@ -83,9 +83,10 @@ class AuthController extends Controller
             'name' => 'sometimes|string|max:255',
             'profile_picture' => 'sometimes|nullable|url|max:500',
             'bio' => 'sometimes|nullable|string|max:1000',
+            'is_public' => 'sometimes|boolean',
         ]);
 
-        $user->update($request->only(['name', 'profile_picture', 'bio']));
+        $user->update($request->only(['name', 'profile_picture', 'bio', 'is_public']));
 
         return response()->json([
             'message' => 'Profile updated successfully',
@@ -101,6 +102,18 @@ class AuthController extends Controller
             return response()->json([
                 'message' => 'User not found',
             ], 404);
+        }
+
+        // Check if profile is public
+        if (!$user->is_public) {
+            return response()->json([
+                'message' => 'This profile is private',
+                'user' => [
+                    'id' => $user->id,
+                    'name' => $user->name,
+                    'is_public' => false,
+                ]
+            ], 403);
         }
 
         return response()->json([

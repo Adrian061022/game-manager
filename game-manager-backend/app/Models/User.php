@@ -26,6 +26,7 @@ class User extends Authenticatable
         'balance',
         'profile_picture',
         'bio',
+        'is_public',
     ];
 
     /**
@@ -49,6 +50,7 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'balance' => 'decimal:2',
+            'is_public' => 'boolean',
         ];
     }
 
