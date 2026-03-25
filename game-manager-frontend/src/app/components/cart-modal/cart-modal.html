@@ -32,7 +32,8 @@
             <div class="cart-item-title">{{ game.title }}</div>
             <div class="cart-item-category">{{ game.category.name }}</div>
           </div>
-          <div class="cart-item-price">{{ game.price | number:'1.0-0' }} Ft</div>
+          <div class="cart-item-price" *ngIf="game.price && +game.price !== 0">{{ game.price | number:'1.0-0' }} Ft</div>
+          <div class="cart-item-price free" *ngIf="!game.price || +game.price === 0">Ingyenes</div>
           <button class="btn-remove-item" (click)="removeItem(game.id)" title="Eltávolítás">✕</button>
         </div>
 
@@ -80,7 +81,44 @@
           <span class="payment-summary-amount">{{ total | number:'1.0-0' }} Ft</span>
         </div>
 
-        <div class="divider"><span>Kártyaadatok</span></div>
+        <div class="divider"><span>Fizetési mód</span></div>
+
+        <!-- Payment method selection -->
+        <div class="payment-method-selection">
+          <label class="payment-option" [class.selected]="paymentMethod === 'card'">
+            <input type="radio" name="paymentMethod" value="card" [(ngModel)]="paymentMethod">
+            <div class="payment-option-content">
+              <div class="payment-option-icon">💳</div>
+              <div class="payment-option-text">
+                <div class="payment-option-title">Bankkártyával</div>
+                <div class="payment-option-desc">Fizetés bankkártyával</div>
+              </div>
+            </div>
+          </label>
+
+          <label class="payment-option" [class.selected]="paymentMethod === 'balance'">
+            <input type="radio" name="paymentMethod" value="balance" [(ngModel)]="paymentMethod">
+            <div class="payment-option-content">
+              <div class="payment-option-icon">💰</div>
+              <div class="payment-option-text">
+                <div class="payment-option-title">Egyenlegből</div>
+                <div class="payment-option-desc">
+                  Egyenleged: {{ (authService.currentUserValue?.balance ?? 0) | number:'1.0-0' }} Ft
+                  <span 
+                    class="insufficient-badge" 
+                    *ngIf="(authService.currentUserValue?.balance ?? 0) < total"
+                  >
+                    Nincs elég
+                  </span>
+                </div>
+              </div>
+            </div>
+          </label>
+        </div>
+
+        <!-- Card fields (csak ha kártyával fizet) -->
+        <ng-container *ngIf="paymentMethod === 'card'">
+          <div class="divider"><span>Kártyaadatok</span></div>
 
         <!-- Card preview -->
         <div class="card-preview">
@@ -148,6 +186,29 @@
         </div>
 
         <p class="demo-note">⚠️ Ez egy szimulált fizetés — valódi terhelés nem történik.</p>
+        </ng-container>
+
+        <!-- Balance payment info (csak ha egyenleggel fizet) -->
+        <ng-container *ngIf="paymentMethod === 'balance'">
+          <div class="balance-payment-info">
+            <div class="balance-info-row">
+              <span>Jelenlegi egyenleg:</span>
+              <strong>{{ (authService.currentUserValue?.balance ?? 0) | number:'1.0-0' }} Ft</strong>
+            </div>
+            <div class="balance-info-row">
+              <span>Fizetendő összeg:</span>
+              <strong class="text-danger">-{{ total | number:'1.0-0' }} Ft</strong>
+            </div>
+            <div class="balance-divider"></div>
+            <div class="balance-info-row final">
+              <span>Vásárlás után:</span>
+              <strong [class.insufficient]="(authService.currentUserValue?.balance ?? 0) < total">
+                {{ ((authService.currentUserValue?.balance ?? 0) - total) | number:'1.0-0' }} Ft
+              </strong>
+            </div>
+          </div>
+        </ng-container>
+
       </div>
 
       <div class="modal-footer">

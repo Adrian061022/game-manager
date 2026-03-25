@@ -143,6 +143,10 @@
   flex-shrink: 0;
 }
 
+.cart-item-price.free {
+  color: var(--success);
+}
+
 .btn-remove-item {
   background: transparent;
   border: none;
@@ -406,4 +410,132 @@ input::placeholder { color: var(--text-muted); }
 @keyframes popIn {
   from { transform: scale(0.6); opacity: 0; }
   to   { transform: scale(1);   opacity: 1; }
+}
+
+/* ── Payment method selection ────────── */
+.payment-method-selection {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.payment-option {
+  display: block;
+  border: 2px solid var(--border-color);
+  border-radius: 12px;
+  padding: 16px;
+  cursor: pointer;
+  transition: all 0.2s;
+  background-color: var(--bg-card);
+}
+
+.payment-option:hover {
+  border-color: var(--accent);
+  background-color: rgba(99, 102, 241, 0.05);
+}
+
+.payment-option.selected {
+  border-color: var(--accent);
+  background-color: rgba(99, 102, 241, 0.1);
+}
+
+.payment-option input[type="radio"] {
+  display: none;
+}
+
+.payment-option-content {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.payment-option-icon {
+  font-size: 28px;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bg-secondary);
+  border-radius: 10px;
+}
+
+.payment-option-text {
+  flex: 1;
+}
+
+.payment-option-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+.payment-option-desc {
+  font-size: 13px;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.insufficient-badge {
+  display: inline-block;
+  background-color: rgba(239, 68, 68, 0.15);
+  color: var(--danger);
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+/* ── Balance payment info ────────── */
+.balance-payment-info {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 20px;
+  margin-top: 8px;
+}
+
+.balance-info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  font-size: 14px;
+}
+
+.balance-info-row span {
+  color: var(--text-muted);
+}
+
+.balance-info-row strong {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.balance-info-row.final {
+  font-size: 16px;
+}
+
+.balance-info-row.final strong {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--success);
+}
+
+.balance-info-row strong.insufficient {
+  color: var(--danger);
+}
+
+.balance-divider {
+  height: 1px;
+  background-color: var(--border-color);
+  margin: 12px 0;
+}
+
+.text-danger {
+  color: var(--danger);
 }

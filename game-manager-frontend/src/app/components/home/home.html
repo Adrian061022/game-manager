@@ -126,7 +126,8 @@
           <h3 class="game-title">{{ game.title }}</h3>
           <p class="game-category">{{ game.category.name }}</p>
           <div class="game-footer">
-            <span class="game-price">{{ game.price }} Ft</span>
+            <span class="game-price" *ngIf="game.price && +game.price !== 0">{{ game.price | number:'1.0-0' }} Ft</span>
+            <span class="game-price free" *ngIf="!game.price || +game.price === 0">Ingyenes</span>
             <button
               *ngIf="authService.isAdmin"
               (click)="deleteGame(game.id, game.title); $event.stopPropagation()"

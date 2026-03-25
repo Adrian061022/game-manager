@@ -16,6 +16,10 @@ export class LibraryService {
     return this.http.get<{ data: Game[] }>(`${this.apiUrl}/library`);
   }
 
+  getUserLibrary(userId: number): Observable<{ data: Game[] }> {
+    return this.http.get<{ data: Game[] }>(`${this.apiUrl}/users/${userId}/library`);
+  }
+
   purchase(gameId: number): Observable<{ message: string; data: Game; new_balance: number }> {
     return this.http.post<{ message: string; data: Game; new_balance: number }>(
       `${this.apiUrl}/library/purchase/${gameId}`, {}

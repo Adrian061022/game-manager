@@ -315,6 +315,10 @@
   color: var(--accent);
 }
 
+.game-price.free {
+  color: var(--success);
+}
+
 .btn-delete {
   background: transparent;
   border: 1px solid var(--border-color);

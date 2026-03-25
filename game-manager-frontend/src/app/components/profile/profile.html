@@ -3,10 +3,10 @@
 
     <div *ngIf="saveSuccess" class="alert-success global-alert">{{ saveSuccess }}</div>
 
-    <div class="profile-layout">
+    <div class="profile-layout" [class.single-column]="isPrivateProfile">
 
       <!-- ══ LEFT: Profile card ══ -->
-      <aside class="profile-sidebar">
+      <aside class="profile-sidebar" *ngIf="!isPrivateProfile">
         <div class="avatar-wrap">
           <img [src]="getAvatarUrl()" [alt]="user?.name" class="avatar" />
         </div>
@@ -15,8 +15,8 @@
           <ng-container *ngIf="!isEditMode">
             <h2 class="profile-name">{{ user?.name }}</h2>
             <p class="profile-email" *ngIf="isOwnProfile">{{ user?.email }}</p>
-            <p *ngIf="user?.bio" class="profile-bio">{{ user?.bio }}</p>
-            <p *ngIf="!user?.bio" class="profile-bio empty">Még nincs bemutatkozás.</p>
+            <p *ngIf="user?.bio && !isPrivateProfile" class="profile-bio">{{ user?.bio }}</p>
+            <p *ngIf="!user?.bio && !isPrivateProfile" class="profile-bio empty">Még nincs bemutatkozás.</p>
 
             <div class="balance-row" *ngIf="isOwnProfile">
               <div class="balance-info">
@@ -53,6 +53,14 @@
               <textarea [(ngModel)]="editData.bio" rows="3" placeholder="Írj magadról..."></textarea>
             </div>
 
+            <div class="form-group checkbox-group">
+              <label class="checkbox-label">
+                <input type="checkbox" [(ngModel)]="editData.is_public" />
+                <span>Nyilvános profil</span>
+              </label>
+              <p class="checkbox-hint">Ha kikapcsolod, mások nem láthatják a profilodat</p>
+            </div>
+
             <div class="edit-actions">
               <button class="btn-cancel" (click)="cancelEdit()">Mégse</button>
               <button class="btn-save" [disabled]="isSaving" (click)="saveProfile()">
@@ -65,25 +73,27 @@
 
       <!-- ══ RIGHT: Library ══ -->
       <main class="profile-main">
-        <h2 class="section-title">{{ isOwnProfile ? 'Könyvtáram' : 'Könyvtára' }}
-          <span class="count-badge" *ngIf="isOwnProfile">{{ libraryGames.length }}</span>
+        <h2 class="section-title" *ngIf="!isPrivateProfile">{{ isOwnProfile ? 'Könyvtáram' : (user?.name + ' könyvtára') }}
+          <span class="count-badge">{{ libraryGames.length }}</span>
         </h2>
 
-        <div *ngIf="isLoadingLibrary && isOwnProfile" class="loading">
+        <div *ngIf="isLoadingLibrary && !isPrivateProfile" class="loading">
           <div class="spinner"></div>
           <span>Betöltés...</span>
         </div>
 
-        <div *ngIf="!isOwnProfile" class="not-own-profile-message">
-          <p>A felhasználó könyvtára nem nyilvános.</p>
+        <div *ngIf="!isOwnProfile && isPrivateProfile" class="private-profile-message">
+          <div class="private-icon">🔒</div>
+          <h3>Ez a profil privát</h3>
+          <p>{{ user?.name }} úgy döntött, hogy a profilja nem nyilvános.</p>
         </div>
 
-        <div *ngIf="!isLoadingLibrary && libraryGames.length === 0 && isOwnProfile" class="empty-library">
-          <p>Még nincs a könyvtáradban játék.</p>
-          <a routerLink="/" class="btn-browse">Böngészés a játékok között</a>
+        <div *ngIf="!isLoadingLibrary && libraryGames.length === 0 && !isPrivateProfile" class="empty-library">
+          <p>{{ isOwnProfile ? 'Még nincs a könyvtáradban játék.' : 'Még nincsenek játékok a könyvtárban.' }}</p>
+          <a routerLink="/" class="btn-browse" *ngIf="isOwnProfile">Böngészés a játékok között</a>
         </div>
 
-        <div class="library-grid" *ngIf="!isLoadingLibrary && libraryGames.length > 0">
+        <div class="library-grid" *ngIf="!isLoadingLibrary && libraryGames.length > 0 && !isPrivateProfile">
           <div *ngFor="let game of libraryGames" class="library-card" (click)="viewGame(game.id)">
             <div class="lib-cover">
               <img

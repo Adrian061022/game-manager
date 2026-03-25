@@ -25,9 +25,10 @@ export class Profile implements OnInit {
   isOwnProfile = false;
   viewedUserId: number | null = null;
 
-  editData = { name: '', profile_picture: '', bio: '' };
+  editData = { name: '', profile_picture: '', bio: '', is_public: true };
   saveError = '';
   saveSuccess = '';
+  isPrivateProfile = false;
 
   constructor(
     public authService: AuthService,
@@ -66,11 +67,33 @@ export class Profile implements OnInit {
     this.authService.getUserById(userId).subscribe({
       next: (res) => {
         this.user = res.user;
-        // For now, we won't show other users' libraries
+        this.isPrivateProfile = false;
+        // Load user's library if profile is public
+        this.loadUserLibrary(userId);
+      },
+      error: (err) => {
+        if (err.status === 403) {
+          // Private profile
+          this.isPrivateProfile = true;
+          this.user = err.error.user;
+          this.isLoadingLibrary = false;
+        } else {
+          this.router.navigate(['/']);
+        }
+      }
+    });
+  }
+
+  loadUserLibrary(userId: number): void {
+    this.isLoadingLibrary = true;
+    this.libraryService.getUserLibrary(userId).subscribe({
+      next: (res) => {
+        this.libraryGames = res.data;
         this.isLoadingLibrary = false;
       },
       error: () => {
-        this.router.navigate(['/']);
+        this.libraryGames = [];
+        this.isLoadingLibrary = false;
       }
     });
   }
@@ -79,7 +102,8 @@ export class Profile implements OnInit {
     this.editData = {
       name: this.user?.name ?? '',
       profile_picture: this.user?.profile_picture ?? '',
-      bio: this.user?.bio ?? ''
+      bio: this.user?.bio ?? '',
+      is_public: this.user?.is_public ?? true
     };
   }
 

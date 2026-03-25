@@ -39,7 +39,8 @@
         <p class="game-description">{{ game.description }}</p>
 
         <div class="purchase-section">
-          <span class="price">{{ game.price }} Ft</span>
+          <span class="price" *ngIf="game.price && +game.price !== 0">{{ game.price | number:'1.0-0' }} Ft</span>
+          <span class="price free" *ngIf="!game.price || +game.price === 0">Ingyenes</span>
 
           <div *ngIf="!authService.isLoggedIn">
             <a routerLink="/login" class="btn-buy">Bejelentkezés a vásárláshoz</a>

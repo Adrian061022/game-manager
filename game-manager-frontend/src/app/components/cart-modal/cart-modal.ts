@@ -8,6 +8,7 @@ import { AuthService } from '../../services/auth.service';
 import { Game } from '../../models/game.model';
 
 type CartStep = 'cart' | 'payment' | 'processing' | 'success';
+type PaymentMethod = 'card' | 'balance';
 
 @Component({
   selector: 'app-cart-modal',
@@ -24,6 +25,7 @@ export class CartModal implements OnInit, OnDestroy {
   total: number = 0;
   errorMessage = '';
   card = { number: '', name: '', expiry: '', cvv: '' };
+  paymentMethod: PaymentMethod = 'card';
 
   private sub!: Subscription;
 
@@ -62,9 +64,16 @@ export class CartModal implements OnInit, OnDestroy {
   }
 
   isFormValid(): boolean {
+    if (this.items.length === 0) return false;
+    
+    // Ha egyenleggel fizet, csak az kell, hogy legyen elég pénz
+    if (this.paymentMethod === 'balance') {
+      return (this.authService.currentUserValue?.balance ?? 0) >= this.total;
+    }
+    
+    // Ha kártyával fizet, ellenőrizni kell a kártyaadatokat
     const rawNumber = this.card.number.replace(/\s/g, '');
     return (
-      this.items.length > 0 &&
       rawNumber.length === 16 &&
       this.card.name.trim().length >= 3 &&
       /^\d{2}\/\d{2}$/.test(this.card.expiry) &&
@@ -91,10 +100,16 @@ export class CartModal implements OnInit, OnDestroy {
       forkJoin(this.items.map(g => this.libraryService.purchase(g.id))).subscribe({
         next: () => {
           const user = this.authService.currentUserValue!;
-          this.authService.updateCurrentUser({
-            ...user,
-            balance: (user.balance ?? 0) - purchasedTotal
-          });
+          
+          // Ha egyenleggel fizetett, akkor levonjuk az egyenlegből
+          if (this.paymentMethod === 'balance') {
+            this.authService.updateCurrentUser({
+              ...user,
+              balance: (user.balance ?? 0) - purchasedTotal
+            });
+          }
+          // Ha kártyával fizetett, az egyenleg nem változik
+          
           this.cartService.clearCart();
           this.step = 'success';
         },
