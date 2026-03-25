@@ -400,8 +400,42 @@
 .reviewer-info {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   flex-wrap: wrap;
+}
+
+.reviewer-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--border-color);
+  cursor: pointer;
+  transition: transform 0.15s, border-color 0.15s;
+  flex-shrink: 0;
+}
+
+.reviewer-avatar:hover {
+  transform: scale(1.05);
+  border-color: var(--accent);
+}
+
+.reviewer-details {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.reviewer-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: color 0.15s;
+}
+
+.reviewer-name:hover {
+  color: var(--accent);
 }
 
 .reviewer-info strong {
@@ -433,6 +467,25 @@
   color: var(--text-muted);
 }
 
+.btn-edit-review {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 14px;
+  width: 24px;
+  height: 24px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.12s, color 0.12s;
+}
+
+.btn-edit-review:hover {
+  background-color: rgba(99, 102, 241, 0.12);
+  color: var(--accent);
+}
+
 .btn-delete-review {
   background: transparent;
   border: none;
@@ -460,4 +513,56 @@
   border-top: 1px solid var(--border-color);
   padding-top: 10px;
   margin-top: 2px;
+}
+
+/* ── Review edit form ─────────────────── */
+.review-edit-form {
+  border-top: 1px solid var(--border-color);
+  padding-top: 14px;
+  margin-top: 10px;
+}
+
+.review-edit-form .form-group {
+  margin-bottom: 12px;
+}
+
+.review-edit-form .form-group:last-of-type {
+  margin-bottom: 14px;
+}
+
+.edit-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-save {
+  background-color: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 7px;
+  padding: 8px 18px;
+  font-size: 13px;
+  font-weight: 600;
+  transition: background 0.15s;
+}
+
+.btn-save:hover {
+  background-color: var(--accent-hover);
+}
+
+.btn-cancel {
+  background-color: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 7px;
+  padding: 8px 18px;
+  font-size: 13px;
+  font-weight: 600;
+  transition: all 0.15s;
+}
+
+.btn-cancel:hover {
+  background-color: var(--bg-secondary);
+  border-color: var(--text-muted);
+  color: var(--text-primary);
 }

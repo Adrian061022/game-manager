@@ -36,6 +36,11 @@ export const routes: Routes = [
     title: 'Profilom - Game Manager'
   },
   {
+    path: 'profile/:id',
+    component: Profile,
+    title: 'Profil - Game Manager'
+  },
+  {
     path: 'admin/game/new',
     component: GameForm,
     canActivate: [authGuard],

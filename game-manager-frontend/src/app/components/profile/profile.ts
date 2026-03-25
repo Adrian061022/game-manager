@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { LibraryService } from '../../services/library.service';
 import { User } from '../../models/user.model';
@@ -22,6 +22,8 @@ export class Profile implements OnInit {
   isEditMode = false;
   isSaving = false;
   showTopUp = false;
+  isOwnProfile = false;
+  viewedUserId: number | null = null;
 
   editData = { name: '', profile_picture: '', bio: '' };
   saveError = '';
@@ -30,22 +32,47 @@ export class Profile implements OnInit {
   constructor(
     public authService: AuthService,
     private libraryService: LibraryService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
-    if (!this.authService.isLoggedIn) {
-      this.router.navigate(['/login']);
-      return;
+    const userIdParam = this.route.snapshot.paramMap.get('id');
+    
+    if (userIdParam) {
+      // Viewing another user's profile
+      this.viewedUserId = +userIdParam;
+      this.isOwnProfile = false;
+      this.loadUserProfile(this.viewedUserId);
+    } else {
+      // Viewing own profile
+      if (!this.authService.isLoggedIn) {
+        this.router.navigate(['/login']);
+        return;
+      }
+      this.isOwnProfile = true;
+      this.authService.getCurrentUser().subscribe({
+        next: (res) => {
+          this.user = res.user;
+          this.authService.updateCurrentUser(res.user);
+          this.initEditData();
+        }
+      });
+      this.loadLibrary();
     }
-    this.authService.getCurrentUser().subscribe({
+  }
+
+  loadUserProfile(userId: number): void {
+    this.authService.getUserById(userId).subscribe({
       next: (res) => {
         this.user = res.user;
-        this.authService.updateCurrentUser(res.user);
-        this.initEditData();
+        // For now, we won't show other users' libraries
+        this.isLoadingLibrary = false;
+      },
+      error: () => {
+        this.router.navigate(['/']);
       }
     });
-    this.loadLibrary();
   }
 
   private initEditData(): void {

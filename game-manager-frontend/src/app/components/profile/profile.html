@@ -14,11 +14,11 @@
         <div class="profile-card">
           <ng-container *ngIf="!isEditMode">
             <h2 class="profile-name">{{ user?.name }}</h2>
-            <p class="profile-email">{{ user?.email }}</p>
+            <p class="profile-email" *ngIf="isOwnProfile">{{ user?.email }}</p>
             <p *ngIf="user?.bio" class="profile-bio">{{ user?.bio }}</p>
             <p *ngIf="!user?.bio" class="profile-bio empty">Még nincs bemutatkozás.</p>
 
-            <div class="balance-row">
+            <div class="balance-row" *ngIf="isOwnProfile">
               <div class="balance-info">
                 <span class="balance-label">Egyenleg</span>
                 <span class="balance-amount">{{ (user?.balance ?? 0) | number:'1.0-0' }} Ft</span>
@@ -32,7 +32,7 @@
               </span>
             </div>
 
-            <button class="btn-edit-profile" (click)="startEdit()">Profil szerkesztése</button>
+            <button class="btn-edit-profile" *ngIf="isOwnProfile" (click)="startEdit()">Profil szerkesztése</button>
           </ng-container>
 
           <!-- Edit form -->
@@ -65,16 +65,20 @@
 
       <!-- ══ RIGHT: Library ══ -->
       <main class="profile-main">
-        <h2 class="section-title">Könyvtáram
-          <span class="count-badge">{{ libraryGames.length }}</span>
+        <h2 class="section-title">{{ isOwnProfile ? 'Könyvtáram' : 'Könyvtára' }}
+          <span class="count-badge" *ngIf="isOwnProfile">{{ libraryGames.length }}</span>
         </h2>
 
-        <div *ngIf="isLoadingLibrary" class="loading">
+        <div *ngIf="isLoadingLibrary && isOwnProfile" class="loading">
           <div class="spinner"></div>
           <span>Betöltés...</span>
         </div>
 
-        <div *ngIf="!isLoadingLibrary && libraryGames.length === 0" class="empty-library">
+        <div *ngIf="!isOwnProfile" class="not-own-profile-message">
+          <p>A felhasználó könyvtára nem nyilvános.</p>
+        </div>
+
+        <div *ngIf="!isLoadingLibrary && libraryGames.length === 0 && isOwnProfile" class="empty-library">
           <p>Még nincs a könyvtáradban játék.</p>
           <a routerLink="/" class="btn-browse">Böngészés a játékok között</a>
         </div>

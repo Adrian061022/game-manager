@@ -77,6 +77,10 @@ export class AuthService {
     return this.http.get<{ user: User }>(`${this.apiUrl}/user`);
   }
 
+  getUserById(id: number): Observable<{ user: User }> {
+    return this.http.get<{ user: User }>(`${this.apiUrl}/users/${id}`);
+  }
+
   updateProfile(data: { name: string; profile_picture?: string; bio?: string }): Observable<{ message: string; user: User }> {
     return this.http.put<{ message: string; user: User }>(`${this.apiUrl}/user/profile`, data)
       .pipe(

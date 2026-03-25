@@ -30,6 +30,9 @@ export class GameDetails implements OnInit {
   submittingReview: boolean = false;
   reviewError: string = '';
   reviewSuccess: string = '';
+  
+  editingReviewId: number | null = null;
+  editingReview: ReviewRequest = { rating: 5, comment: '' };
 
   constructor(
     private route: ActivatedRoute,
@@ -134,6 +137,40 @@ export class GameDetails implements OnInit {
       },
       error: () => {}
     });
+  }
+
+  startEditReview(review: Review): void {
+    this.editingReviewId = review.id;
+    this.editingReview = {
+      rating: review.rating,
+      comment: review.comment || ''
+    };
+  }
+
+  cancelEditReview(): void {
+    this.editingReviewId = null;
+    this.editingReview = { rating: 5, comment: '' };
+  }
+
+  saveEditReview(reviewId: number): void {
+    if (!this.game) return;
+    this.reviewService.updateReview(this.game.id, reviewId, this.editingReview).subscribe({
+      next: (response) => {
+        const index = this.reviews.findIndex(r => r.id === reviewId);
+        if (index !== -1) {
+          this.reviews[index] = response.data;
+        }
+        this.cancelEditReview();
+        if (this.game) {
+          this.loadReviews(this.game.id);
+        }
+      },
+      error: () => {}
+    });
+  }
+
+  viewUserProfile(userId: number): void {
+    this.router.navigate(['/profile', userId]);
   }
 
   editGame(): void {

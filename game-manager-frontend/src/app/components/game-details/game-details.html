@@ -115,13 +115,32 @@
         <div *ngFor="let review of reviews" class="review-card">
           <div class="review-header">
             <div class="reviewer-info">
-              <strong>{{ review.user?.name || 'Ismeretlen felhasználó' }}</strong>
-              <span class="review-stars">
-                <span *ngFor="let s of getStars(review.rating)">★</span><span *ngFor="let s of getEmptyStars(review.rating)" class="empty-star">★</span>
-              </span>
+              <img 
+                [src]="review.user?.profile_picture || 'https://ui-avatars.com/api/?name=' + (review.user?.name || 'User') + '&background=6366f1&color=fff&size=128'"
+                [alt]="review.user?.name"
+                class="reviewer-avatar"
+                (click)="viewUserProfile(review.user_id)"
+                [title]="'Profil megtekintése: ' + (review.user?.name || 'Ismeretlen')"
+              />
+              <div class="reviewer-details">
+                <strong 
+                  class="reviewer-name"
+                  (click)="viewUserProfile(review.user_id)"
+                  [title]="'Profil megtekintése'"
+                >{{ review.user?.name || 'Ismeretlen felhasználó' }}</strong>
+                <span class="review-stars">
+                  <span *ngFor="let s of getStars(review.rating)">★</span><span *ngFor="let s of getEmptyStars(review.rating)" class="empty-star">★</span>
+                </span>
+              </div>
             </div>
             <div class="review-actions">
               <span class="review-date">{{ review.created_at | date:'yyyy. MM. dd.' }}</span>
+              <button
+                *ngIf="isMyReview(review) && editingReviewId !== review.id"
+                class="btn-edit-review"
+                (click)="startEditReview(review)"
+                title="Szerkesztés"
+              >✎</button>
               <button
                 *ngIf="isMyReview(review) || isAdmin()"
                 class="btn-delete-review"
@@ -130,7 +149,36 @@
               >✕</button>
             </div>
           </div>
-          <p class="review-comment" *ngIf="review.comment">{{ review.comment }}</p>
+          
+          <!-- Normal view -->
+          <p class="review-comment" *ngIf="review.comment && editingReviewId !== review.id">{{ review.comment }}</p>
+          
+          <!-- Edit mode -->
+          <div *ngIf="editingReviewId === review.id" class="review-edit-form">
+            <div class="form-group">
+              <label>Értékelés</label>
+              <select [(ngModel)]="editingReview.rating" name="editRating">
+                <option value="1">1 csillag - Rossz</option>
+                <option value="2">2 csillag - Gyenge</option>
+                <option value="3">3 csillag - Közepes</option>
+                <option value="4">4 csillag - Jó</option>
+                <option value="5">5 csillag - Kiváló</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Vélemény</label>
+              <textarea
+                [(ngModel)]="editingReview.comment"
+                name="editComment"
+                rows="3"
+                placeholder="Írd le a véleményed..."
+              ></textarea>
+            </div>
+            <div class="edit-actions">
+              <button type="button" class="btn-save" (click)="saveEditReview(review.id)">Mentés</button>
+              <button type="button" class="btn-cancel" (click)="cancelEditReview()">Mégse</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
