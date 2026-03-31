@@ -12,22 +12,22 @@ export const routes: Routes = [
   {
     path: '',
     component: Home,
-    title: 'Home - Game Manager'
+    title: 'Főoldal - Game Manager'
   },
   {
     path: 'login',
     component: Login,
-    title: 'Login - Game Manager'
+    title: 'Bejelentkezés - Game Manager'
   },
   {
     path: 'register',
     component: Register,
-    title: 'Register - Game Manager'
+    title: 'Regisztráció - Game Manager'
   },
   {
     path: 'game/:id',
     component: GameDetails,
-    title: 'Game Details - Game Manager'
+    title: 'Játék részletek - Game Manager'
   },
   {
     path: 'profile',
@@ -44,13 +44,13 @@ export const routes: Routes = [
     path: 'admin/game/new',
     component: GameForm,
     canActivate: [authGuard],
-    title: 'Add New Game - Game Manager'
+    title: 'Új játék hozzáadása - Game Manager'
   },
   {
     path: 'admin/game/edit/:id',
     component: GameForm,
     canActivate: [authGuard],
-    title: 'Edit Game - Game Manager'
+    title: 'Játék szerkesztése - Game Manager'
   },
   {
     path: 'admin/transactions',
