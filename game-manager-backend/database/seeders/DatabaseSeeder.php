@@ -19,18 +19,20 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([
             'name' => 'Admin User',
             'email' => 'admin@example.com',
-            'password' => bcrypt('password'),
+            'password' => bcrypt('Admin123!'), // Stronger password for demo
             'role' => 'admin',
             'balance' => 1000.00,
+            'email_verified_at' => now(), // Pre-verified for testing
         ]);
 
         // Create regular test user
         User::factory()->create([
             'name' => 'Test User',
             'email' => 'user@example.com',
-            'password' => bcrypt('password'),
+            'password' => bcrypt('User123!'), // Stronger password for demo
             'role' => 'user',
             'balance' => 500.00,
+            'email_verified_at' => now(), // Pre-verified for testing
         ]);
 
         // Create categories with real game genres

@@ -5,11 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Game extends Model
 {
     /** @use HasFactory<\Database\Factories\GameFactory> */
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
         'title',
@@ -34,7 +35,7 @@ class Game extends Model
     public function users()
     {
         return $this->belongsToMany(User::class, 'user_game')
-            ->withTimestamp('purchased_at')
+            ->withPivot('purchased_at')
             ->withTimestamps();
     }
 

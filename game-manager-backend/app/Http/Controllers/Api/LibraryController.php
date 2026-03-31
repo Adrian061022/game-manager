@@ -30,7 +30,7 @@ class LibraryController extends Controller
         // Check if already owns the game
         if ($user->ownsGame($game->id)) {
             return response()->json([
-                'message' => 'You already own this game'
+                'message' => 'Már megvetted ezt a játékot'
             ], 400);
         }
 
@@ -42,7 +42,7 @@ class LibraryController extends Controller
             // Check if user has enough balance
             if ($user->balance < $game->price) {
                 return response()->json([
-                    'message' => 'Insufficient balance. Please add funds to your account.',
+                    'message' => 'Nincs elég egyenleged. Kérlek, tölts fel a fiókodat.',
                     'required' => $game->price,
                     'current_balance' => $user->balance
                 ], 400);
@@ -66,7 +66,7 @@ class LibraryController extends Controller
         ]);
 
         return response()->json([
-            'message' => 'Game purchased successfully',
+            'message' => 'Játék sikeresen megvásárolva',
             'data' => new GameResource($game->load('category')),
             'new_balance' => $user->fresh()->balance
         ], 201);
@@ -92,7 +92,7 @@ class LibraryController extends Controller
         ]);
 
         return response()->json([
-            'message' => 'Funds added successfully',
+            'message' => 'Egyenleg sikeresen feltöltve',
             'new_balance' => $user->fresh()->balance
         ]);
     }
@@ -118,14 +118,14 @@ class LibraryController extends Controller
 
         if (!$user) {
             return response()->json([
-                'message' => 'User not found'
+                'message' => 'Felhasználó nem található'
             ], 404);
         }
 
         // Check if profile is public
         if (!$user->is_public) {
             return response()->json([
-                'message' => 'This user\'s profile is private',
+                'message' => 'Ennek a felhasználónak a profilja privát',
                 'data' => []
             ], 403);
         }

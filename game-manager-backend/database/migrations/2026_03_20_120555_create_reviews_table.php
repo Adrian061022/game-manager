@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('rating')->unsigned()->default(5); // 1-5 csillag
             $table->text('comment')->nullable();
             $table->timestamps();
+            $table->softDeletes();
 
             // Egy felhasználó csak egyszer értékelheti egy játékot
             $table->unique(['user_id', 'game_id']);

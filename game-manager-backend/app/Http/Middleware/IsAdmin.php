@@ -17,7 +17,7 @@ class IsAdmin
     {
         if (!$request->user() || !$request->user()->isAdmin()) {
             return response()->json([
-                'message' => 'Unauthorized. Admin access required.'
+                'message' => 'Jogosulatlan hozzáférés. Admin jogosultság szükséges.'
             ], 403);
         }
 

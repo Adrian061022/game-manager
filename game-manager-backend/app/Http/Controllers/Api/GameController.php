@@ -93,7 +93,7 @@ class GameController extends Controller
         $game->delete();
         
         return response()->json([
-            'message' => 'Game deleted successfully',
+            'message' => 'Játék sikeresen törölve',
         ]);
     }
 }
