@@ -57,8 +57,8 @@ export class Home implements OnInit {
         this.isLoading = false;
       },
       error: (error) => {
-        console.error('Error loading games:', error);
-        this.errorMessage = 'Failed to load games. Please try again.';
+        console.error('Hiba a játékok betöltésekor:', error);
+        this.errorMessage = 'Nem sikerült betölteni a játékokat.';
         this.isLoading = false;
       }
     });
@@ -101,7 +101,7 @@ export class Home implements OnInit {
   }
 
   deleteGame(id: number, title: string): void {
-    if (!confirm(`Are you sure you want to delete "${title}"?`)) {
+    if (!confirm(`Biztosan törölni szeretnéd a(z) "${title}" játékot?`)) {
       return;
     }
 
@@ -110,8 +110,8 @@ export class Home implements OnInit {
         this.loadGames(this.currentPage);
       },
       error: (error) => {
-        console.error('Error deleting game:', error);
-        alert('Failed to delete game. Please try again.');
+        console.error('Hiba a játék törlésekor:', error);
+        alert('Nem sikerült törölni a játékot. Kérjük, próbálja újra.');
       }
     });
   }
