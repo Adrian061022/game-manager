@@ -950,46 +950,6 @@ Laravel alapértelmezett email verification template-et használ.
     └── Non-Admin Access Admin Route
 ```
 
-### Automatikus Tesztek
-
-Minden request tartalmaz automatikus teszteket:
-
-**Auth/Login példa:**
-```javascript
-pm.test("Status code is 200", function () {
-    pm.response.to.have.status(200);
-});
-
-pm.test("Response has token", function () {
-    var jsonData = pm.response.json();
-    pm.expect(jsonData.token).to.exist;
-    pm.collectionVariables.set("auth_token", jsonData.token);
-});
-
-pm.test("User has email verified", function () {
-    var jsonData = pm.response.json();
-    pm.expect(jsonData.user.email_verified).to.be.true;
-});
-```
-
-![Postman Test Results](./images/postman_test_results.png)
-*Postman automatikus teszt eredmények*
-
-### Teljes teszt futtatás
-
-**Collection Runner használata:**
-1. Collection → **Run**
-2. Select all requests
-3. **Run Game Manager API**
-
-![Postman Runner](./images/postman_runner.png)
-*Postman Collection Runner*
-
-![Postman Runner Results](./images/postman_runner_results.png)
-*Collection Runner eredmények - 40+ teszt*
-
----
-
 ## Feature Tesztek
 
 ### PHPUnit Tesztek Futtatása
@@ -1027,9 +987,6 @@ php artisan test
   Tests:    16 passed (51 assertions)
   Duration: 1.63s
 ```
-
-![PHPUnit Test Results](./images/phpunit_results.png)
-*PHPUnit teszt eredmények*
 
 ### Teszt Kategóriák
 
@@ -1092,8 +1049,7 @@ public function test_user_can_register(): void
 - ✅ Saját vélemény törlése
 - ✅ Soft delete ellenőrzése
 
-![All Tests](./images/all_tests.png)
-*Összes teszt sikeres futása*
+<img width="556" height="701" alt="image" src="https://github.com/user-attachments/assets/041b7851-7e0e-46b8-93c7-a5a59d6fe615" />
 
 ### Test Coverage
 
@@ -1139,9 +1095,6 @@ return [
 - `Access-Control-Allow-Headers: *`
 - `Access-Control-Allow-Credentials: true`
 
-![CORS Headers](./images/cors_headers.png)
-*CORS headers a response-ban*
-
 ---
 
 ## Soft Delete
@@ -1180,9 +1133,7 @@ class Game extends Model
 Game::withTrashed()->get(); // Töröltekkel együtt
 Game::onlyTrashed()->get(); // Csak töröltek
 ```
-
-![Soft Delete](./images/soft_delete_example.png)
-*Soft delete példa - deleted_at timestamp*
+<img width="1648" height="91" alt="image" src="https://github.com/user-attachments/assets/6d4d805f-3224-4980-b1c4-805363159ed3" />
 
 ---
 
