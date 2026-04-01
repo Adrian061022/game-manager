@@ -15,8 +15,6 @@ Az alkalmazás frontendja **Angular** keretrendszerrel készült (standalone kom
 | TypeScript | ~5.9.2 |
 | Zone.js | ~0.15.0 |
 
-Fejlesztői eszközök: Angular CLI, Karma + Jasmine (tesztelés).
-
 ---
 
 ## Mappaszerkezet
@@ -71,12 +69,19 @@ A védett útvonalakon az `authGuard` ellenőrzi, hogy a felhasználó be van-e 
 - Admin felhasználónak admin menüpontokat jelenít meg (új játék, tranzakciók).
 - Kijelentkezés gomb.
 
+![alt text](image.png)
+
 ### `Footer`
 - Egyszerű lábléc komponens.
 
+![alt text](image-1.png)
 ---
 
 ### `Home`
+
+![alt text](image-2.png)
+
+
 **Fájl:** `components/home/home.ts`
 
 A főoldal, amely a játékok listáját jeleníti meg oldalszámozással és szűrési lehetőséggel.
@@ -93,6 +98,9 @@ A főoldal, amely a játékok listáját jeleníti meg oldalszámozással és sz
 ---
 
 ### `GameDetails`
+
+![alt text](image-3.png)
+
 **Fájl:** `components/game-details/game-details.ts`
 
 Egy adott játék részletes oldala.
@@ -113,6 +121,8 @@ Egy adott játék részletes oldala.
 ### `Login`
 **Fájl:** `components/login/login.ts`
 
+![alt text](image-4.png)
+
 Bejelentkezési form.
 
 **Funkciók:**
@@ -123,6 +133,9 @@ Bejelentkezési form.
 ---
 
 ### `Register`
+
+![alt text](image-5.png)
+
 **Fájl:** `components/register/register.ts`
 
 Regisztrációs form.
@@ -136,6 +149,10 @@ Regisztrációs form.
 ---
 
 ### `Profile`
+
+
+![alt text](image-6.png)
+
 **Fájl:** `components/profile/profile.ts`
 
 Felhasználói profiloldal.
@@ -150,6 +167,9 @@ Felhasználói profiloldal.
 ---
 
 ### `GameForm` (Admin)
+
+![alt text](image-7.png)
+
 **Fájl:** `components/admin/game-form/game-form.ts`
 
 Adminisztrátori form játék létrehozásához és szerkesztéséhez.
@@ -162,6 +182,9 @@ Adminisztrátori form játék létrehozásához és szerkesztéséhez.
 ---
 
 ### `Transactions` (Admin)
+
+![alt text](image-8.png)
+
 **Fájl:** `components/admin/transactions/transactions.ts`
 
 Adminisztrátori tranzakciós lista.
@@ -174,6 +197,9 @@ Adminisztrátori tranzakciós lista.
 ---
 
 ### `CartModal`
+
+![alt text](image-9.png)
+
 **Fájl:** `components/cart-modal/cart-modal.ts`
 
 Kosár modal ablak.
@@ -187,6 +213,9 @@ Kosár modal ablak.
 ---
 
 ### `TopUpModal`
+
+![alt text](image-10.png)
+
 **Fájl:** `components/top-up-modal/top-up-modal.ts`
 
 Egyenleg feltöltési modal ablak.
