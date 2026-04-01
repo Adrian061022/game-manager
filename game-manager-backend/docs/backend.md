@@ -375,24 +375,7 @@ Authorization: Bearer {token}
 
 ---
 
-### ✉️ Email Verifikációs Végpontok
-
----
-
-#### POST /api/email/resend
-Verifikációs email újraküldése
-
-```http
-POST http://localhost:8000/api/email/resend
-Authorization: Bearer {token}
-```
-
-**Válasz:**
-```json
-{
-  "message": "Verification email sent successfully"
-}
-```
+### ✉️ Email Verifikációs Végpont
 
 ---
 
@@ -438,9 +421,7 @@ Authorization: Bearer {token}
   "is_public": true
 }
 ```
-
-![Get User](./images/get_user.png)
-*Felhasználó adatai*
+<img width="1342" height="364" alt="image" src="https://github.com/user-attachments/assets/4cae3096-9734-4592-9a4b-93791e99881a" />
 
 ---
 
@@ -462,15 +443,24 @@ Content-Type: application/json
 **Válasz:**
 ```json
 {
-  "message": "Profile updated successfully",
-  "user": {
-    "id": 1,
-    "name": "Updated Name",
-    "bio": "New bio",
-    "is_public": false
-  }
+    "message": "Profil sikeresen frissítve",
+    "user": {
+        "id": 1,
+        "name": "Updated Name",
+        "email": "admin@example.com",
+        "role": "admin",
+        "profile_picture": null,
+        "bio": "New bio text",
+        "is_public": false,
+        "email_verified_at": "2026-04-01T13:01:00.000000Z",
+        "balance": "1000.00",
+        "created_at": "2026-04-01T13:01:00.000000Z",
+        "updated_at": "2026-04-01T15:25:36.000000Z",
+        "deleted_at": null
+    }
 }
 ```
+<img width="1320" height="391" alt="image" src="https://github.com/user-attachments/assets/0b6aa4fb-b3a5-44d4-b27a-01fa7897308a" />
 
 ---
 
