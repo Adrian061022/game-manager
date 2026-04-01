@@ -192,25 +192,6 @@ A szerver elérhető: `http://localhost:8000`
 
 ### 📍 Publikus Végpontok
 
-#### GET /api/test
-Szerver állapot ellenőrzés
-
-```http
-GET http://localhost:8000/api/test
-```
-
-**Válasz:**
-```json
-{
-  "message": "API működik"
-}
-```
-
-![API Test](./images/api_test.png)
-*API test végpont*
-
----
-
 #### GET /api/games
 Összes játék listázása
 
@@ -241,8 +222,7 @@ GET http://localhost:8000/api/games
 ]
 ```
 
-![Get Games](./images/get_games.png)
-*Játékok listázása*
+<img width="1457" height="380" alt="image" src="https://github.com/user-attachments/assets/3b911976-61d8-4402-b0e5-c02ecdb14734" />
 
 ---
 
