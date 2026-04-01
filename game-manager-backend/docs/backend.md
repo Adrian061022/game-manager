@@ -163,13 +163,15 @@ A szerver elérhető: `http://localhost:8000`
 | Mező | Típus | Leírás |
 |------|-------|--------|
 | id | bigint | Elsődleges kulcs |
-| title | string(255) | Játék címe |
-| category_id | bigint | Kategória FK |
-| description | text | Leírás |
-| price | decimal(8,2) | Ár |
-| image_url | string | Kép URL |
-| playable_url | string | Játszható link |
-| deleted_at | timestamp | Soft delete |
+| title | string(255) (not null) | Játék címe |
+| description | text (not null) | Leírás |
+| price | decimal(8,2) (not null) | Ár |
+| cover_image | string (nullable) | Borítókép URL |
+| playable_url | string(500) (nullable) | Játszható link |
+| category_id | bigint (FK) | Kategória (cascade delete) |
+| created_at | timestamp | Létrehozás időpontja |
+| updated_at | timestamp | Módosítás időpontja |
+| deleted_at | timestamp (nullable) | Soft delete |
 
 <img width="595" height="218" alt="image" src="https://github.com/user-attachments/assets/23b7ee95-754c-4a47-b44b-70cb8e22f84e" />
 
@@ -207,19 +209,19 @@ GET http://localhost:8000/api/games
 ```json
 [
   {
-            "id": 1,
-            "title": "Counter-Strike 2",
-            "description": "For over two decades, Counter-Strike has offered an elite competitive experience, one shaped by millions of players from across the globe. And now the next chapter in the CS story is about to begin. This is Counter-Strike 2.",
-            "price": "0.00",
-            "cover_image": "https://cdn.cloudflare.steamstatic.com/steam/apps/730/header.jpg",
-            "category": {
-                "id": 5,
-                "name": "Shooter",
-                "slug": "shooter"
-            },
-            "created_at": "2026-04-01T13:01:01.000000Z",
-            "updated_at": "2026-04-01T13:01:01.000000Z"
-  },
+    "id": 1,
+    "title": "Counter-Strike 2",
+    "description": "For over two decades, Counter-Strike has offered an elite competitive experience, one shaped by millions of players from across the globe. And now the next chapter in the CS story is about to begin. This is Counter-Strike 2.",
+    "price": "0.00",
+    "cover_image": "https://cdn.cloudflare.steamstatic.com/steam/apps/730/header.jpg",
+    "category": {
+      "id": 5,
+      "name": "Shooter",
+      "slug": "shooter"
+    },
+    "created_at": "2026-04-01T13:01:01.000000Z",
+    "updated_at": "2026-04-01T13:01:01.000000Z"
+  }
 ]
 ```
 
@@ -237,19 +239,19 @@ GET http://localhost:8000/api/games/1
 **Válasz:**
 ```json
 {
-  "id": 1,
-  "title": "The Legend of Zelda: Breath of the Wild",
+  "id": 2,
+  "title": "Elden Ring",
   "category": {
-    "id": 1,
-    "name": "Akció",
-    "slug": "akcio"
+    "id": 2,
+    "name": "RPG",
+    "slug": "rpg"
   },
-  "description": "Nyílt világú kaland...",
-  "price": "59.99",
-  "image_url": "zelda.jpg",
+  "description": "THE NEW FANTASY ACTION RPG. Rise, Tarnished, and be guided by grace to brandish the power of the Elden Ring and become an Elden Lord in the Lands Between.",
+  "price": "14990.00",
+  "cover_image": "https://cdn.cloudflare.steamstatic.com/steam/apps/1245620/header.jpg",
   "playable_url": null,
-  "reviews_count": 5,
-  "average_rating": 4.6
+  "reviews_count": 0,
+  "average_rating": 0
 }
 ```
 
@@ -268,9 +270,12 @@ GET http://localhost:8000/api/categories
 **Válasz:**
 ```json
 [
-  { "id": 1, "name": "Akció", "slug": "akcio" },
-  { "id": 2, "name": "Kaland", "slug": "kaland" },
-  { "id": 3, "name": "RPG", "slug": "rpg" }
+  { "id": 1, "name": "Action", "slug": "action" },
+  { "id": 2, "name": "RPG", "slug": "rpg" },
+  { "id": 3, "name": "Strategy", "slug": "strategy" },
+  { "id": 4, "name": "Survival", "slug": "survival" },
+  { "id": 5, "name": "Shooter", "slug": "shooter" },
+  { "id": 6, "name": "Racing", "slug": "racing" }
 ]
 ```
 
@@ -511,14 +516,14 @@ Authorization: Bearer {token}
 {
   "games": [
     {
-      "id": 1,
-      "title": "The Legend of Zelda",
-      "price": "59.99",
-      "image_url": "zelda.jpg",
+      "id": 5,
+      "title": "The Witcher 3: Wild Hunt",
+      "price": "9990.00",
+      "cover_image": "https://cdn.cloudflare.steamstatic.com/steam/apps/292030/header.jpg",
       "purchased_at": "2026-03-20T10:30:00.000000Z"
     }
   ],
-  "balance": "940.01"
+  "balance": "490010.00"
 }
 ```
 
@@ -531,7 +536,7 @@ Authorization: Bearer {token}
 Játék vásárlása
 
 ```http
-POST http://localhost:8000/api/library/purchase/2
+POST http://localhost:8000/api/library/purchase/4
 Authorization: Bearer {token}
 Content-Type: application/json
 
@@ -545,14 +550,14 @@ Content-Type: application/json
 {
   "message": "Game purchased successfully",
   "game": {
-    "id": 2,
-    "title": "God of War"
+    "id": 4,
+    "title": "Cyberpunk 2077"
   },
-  "remaining_balance": "890.01",
+  "remaining_balance": "488020.00",
   "transaction": {
-    "id": 25,
+    "id": 1,
     "type": "purchase",
-    "amount": "49.99",
+    "amount": "11990.00",
     "payment_method": "balance"
   }
 }
@@ -701,12 +706,12 @@ Authorization: Bearer {admin_token}
 Content-Type: application/json
 
 {
-  "title": "New Game",
+  "title": "Hades",
   "category_id": 1,
-  "description": "Game description",
-  "price": 39.99,
-  "image_url": "game.jpg",
-  "playable_url": "https://example.com/play"
+  "description": "Defy the god of the dead as you hack and slash out of the Underworld in this rogue-like dungeon crawler.",
+  "price": 5990.00,
+  "cover_image": "https://cdn.cloudflare.steamstatic.com/steam/apps/1145360/header.jpg",
+  "playable_url": null
 }
 ```
 
@@ -716,9 +721,9 @@ Content-Type: application/json
   "message": "Game created successfully",
   "game": {
     "id": 13,
-    "title": "New Game",
+    "title": "Hades",
     "category_id": 1,
-    "price": "39.99"
+    "price": "5990.00"
   }
 }
 ```
