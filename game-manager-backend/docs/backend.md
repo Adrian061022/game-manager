@@ -377,30 +377,6 @@ Authorization: Bearer {token}
 
 ### ✉️ Email Verifikációs Végpontok
 
-#### GET /api/email/verify/{id}/{hash}
-Email megerősítése (signed URL)
-
-```http
-GET http://localhost:8000/api/email/verify/3/8d1c47c103f0b64c?expires=1774994853&signature=aef359...
-```
-
-**Válasz sikeres verifikálásnál:**
-```json
-{
-  "message": "Email verified successfully."
-}
-```
-
-**Válasz már verifikált emailnél:**
-```json
-{
-  "message": "Email already verified."
-}
-```
-
-![Email Verified](./images/email_verified.png)
-*Sikeres email verifikáció*
-
 ---
 
 #### POST /api/email/resend
@@ -435,6 +411,7 @@ Authorization: Bearer {token}
   "message": "Email is verified"
 }
 ```
+<img width="1308" height="157" alt="image" src="https://github.com/user-attachments/assets/fa0c0ae4-6491-4f5b-aa12-fcf3f10815bf" />
 
 ---
 
