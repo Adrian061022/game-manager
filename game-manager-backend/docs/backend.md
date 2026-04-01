@@ -151,12 +151,12 @@ A szerver elérhető: `http://localhost:8000`
 | updated_at | timestamp | Módosítás időpontja |
 | deleted_at | timestamp | Soft delete |
 
+<img width="495" height="291" alt="image" src="https://github.com/user-attachments/assets/dd49b907-ed2f-4d55-8d08-4510edc5d25d" />
+
+
 **Seed adatok:**
 - Admin: `admin@example.com` / `Admin123!`
 - User: `user@example.com` / `User123!`
-
-![Users tábla](./images/users_table.png)
-*Users tábla struktúra*
 
 ### Games (Játékok)
 
@@ -171,8 +171,7 @@ A szerver elérhető: `http://localhost:8000`
 | playable_url | string | Játszható link |
 | deleted_at | timestamp | Soft delete |
 
-![Games tábla](./images/games_table.png)
-*Games tábla struktúra*
+<img width="595" height="218" alt="image" src="https://github.com/user-attachments/assets/23b7ee95-754c-4a47-b44b-70cb8e22f84e" />
 
 ### Reviews (Vélemények)
 
@@ -184,6 +183,8 @@ A szerver elérhető: `http://localhost:8000`
 | rating | integer(1-5) | Értékelés |
 | comment | text | Szöveges vélemény |
 | deleted_at | timestamp | Soft delete |
+
+<img width="563" height="165" alt="image" src="https://github.com/user-attachments/assets/44a4258a-023a-4216-8e49-8f232b63952c" />
 
 ---
 
