@@ -311,28 +311,87 @@ Adminisztrátori tranzakció lekérdezés.
 ## Modellek (Interfészek)
 
 ### `User`
-```typescript
-{ id, name, email, role?, balance?, profile_picture?, bio?, is_public?, created_at?, updated_at? }
+```php
+
+export interface User {
+  id: number;
+  name: string;
+  email: string;
+  role?: string;
+  balance?: number;
+  profile_picture?: string | null;
+  bio?: string | null;
+  is_public?: boolean;
+  created_at?: string;
+  updated_at?: string;
+}
+
 ```
 
 ### `Game`
-```typescript
-{ id, title, description, price, cover_image, category: Category, created_at?, updated_at? }
+```php
+
+export interface Game {
+  id: number;
+  title: string;
+  description: string;
+  price: string | number;
+  cover_image: string | null;
+  category: Category;
+  created_at?: string;
+  updated_at?: string;
+}
+
 ```
 
 ### `Category`
-```typescript
-{ id, name, slug }
+```php
+
+export interface Category {
+  id: number;
+  name: string;
+  slug: string;
+}
+
 ```
 
 ### `Review`
-```typescript
-{ id, user_id, game_id, rating, comment, created_at, updated_at, user?: { id, name, profile_picture } }
+```php
+
+export interface Review {
+  id: number;
+  user_id: number;
+  game_id: number;
+  rating: number;
+  comment: string | null;
+  created_at: string;
+  updated_at: string;
+  user?: {
+    id: number;
+    name: string;
+    profile_picture: string | null;
+  };
+}
+
+
 ```
 
 ### `Transaction`
-```typescript
-{ id, user_id, type: 'purchase'|'top_up', amount, game_id, created_at, updated_at, user?, game? }
+```php
+
+export interface Transaction {
+  id: number;
+  user_id: number;
+  type: 'purchase' | 'top_up';
+  amount: string | number;
+  game_id: number | null;
+  created_at: string;
+  updated_at: string;
+  user?: { id: number; name: string; email: string };
+  game?: { id: number; title: string } | null;
+}
+
+
 ```
 
 ---
