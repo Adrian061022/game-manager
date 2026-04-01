@@ -37,6 +37,8 @@ class AuthController extends Controller
                 'name' => $user->name,
                 'email' => $user->email,
             ],
+            'access_token' => $token,
+            'token_type' => 'Bearer',
         ], 201);
     }
 
@@ -74,7 +76,8 @@ class AuthController extends Controller
                 'balance' => number_format($user->balance, 2, '.', ''),
                 'email_verified' => $user->hasVerifiedEmail(),
             ],
-            'token' => $token,
+            'access_token' => $token,
+            'token_type' => 'Bearer',
         ]);
     }
 

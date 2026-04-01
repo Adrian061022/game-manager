@@ -475,21 +475,25 @@ Authorization: Bearer {token}
 **Válasz:**
 ```json
 {
-  "games": [
-    {
-      "id": 5,
-      "title": "The Witcher 3: Wild Hunt",
-      "price": "9990.00",
-      "cover_image": "https://cdn.cloudflare.steamstatic.com/steam/apps/292030/header.jpg",
-      "purchased_at": "2026-03-20T10:30:00.000000Z"
-    }
-  ],
-  "balance": "490010.00"
+    "data": [
+        {
+            "id": 5,
+            "title": "The Witcher 3: Wild Hunt",
+            "description": "You are Geralt of Rivia, mercenary monster slayer. Before you stands a war-torn, monster-infested continent you can explore at will. Your current contract? Tracking down Ciri — the Child of Prophecy, a living weapon that can alter the shape of the world.",
+            "price": "9990.00",
+            "cover_image": "https://cdn.cloudflare.steamstatic.com/steam/apps/292030/header.jpg",
+            "category": {
+                "id": 2,
+                "name": "RPG",
+                "slug": "rpg"
+            },
+            "created_at": "2026-04-01T13:01:01.000000Z",
+            "updated_at": "2026-04-01T13:01:01.000000Z"
+        }
+    ]
 }
 ```
-
-![Library](./images/library.png)
-*Felhasználó könyvtára*
+<img width="1393" height="416" alt="image" src="https://github.com/user-attachments/assets/7b513c85-a274-4e7e-a8b1-d1eb542c2b9c" />
 
 ---
 
@@ -509,18 +513,22 @@ Content-Type: application/json
 **Válasz sikeres vásárlásnál:**
 ```json
 {
-  "message": "Game purchased successfully",
-  "game": {
-    "id": 4,
-    "title": "Cyberpunk 2077"
-  },
-  "remaining_balance": "488020.00",
-  "transaction": {
-    "id": 1,
-    "type": "purchase",
-    "amount": "11990.00",
-    "payment_method": "balance"
-  }
+    "message": "Játék sikeresen megvásárolva",
+    "data": {
+        "id": 4,
+        "title": "Cyberpunk 2077",
+        "description": "Cyberpunk 2077 is an open-world, action-adventure RPG set in the dark future of Night City — a dangerous megalopolis obsessed with power, glamor, and ceaseless body modification.",
+        "price": "11990.00",
+        "cover_image": "https://cdn.cloudflare.steamstatic.com/steam/apps/1091500/header.jpg",
+        "category": {
+            "id": 2,
+            "name": "RPG",
+            "slug": "rpg"
+        },
+        "created_at": "2026-04-01T13:01:01.000000Z",
+        "updated_at": "2026-04-01T13:01:01.000000Z"
+    },
+    "new_balance": "38020.00"
 }
 ```
 
@@ -528,12 +536,8 @@ Content-Type: application/json
 - `400`: Játék már tulajdonban
 - `402`: Nincs elég egyenleg
 - `404`: Játék nem található
-
-![Purchase Success](./images/purchase_success.png)
-*Sikeres vásárlás*
-
-![Purchase Insufficient Balance](./images/purchase_insufficient.png)
-*Sikertelen vásárlás - nincs elég egyenleg*
+- 
+<img width="1445" height="436" alt="image" src="https://github.com/user-attachments/assets/3f7ae847-39f4-4a66-bb17-11b73c4d9cee" />
 
 ---
 
@@ -551,6 +555,7 @@ Authorization: Bearer {token}
   "owns_game": true
 }
 ```
+<img width="1331" height="154" alt="image" src="https://github.com/user-attachments/assets/32b1883d-3fe2-4a22-96a5-4ab91abdd34d" />
 
 ---
 
@@ -563,26 +568,20 @@ Authorization: Bearer {token}
 Content-Type: application/json
 
 {
-  "amount": 100
+  "amount": 10000
 }
 ```
 
 **Válasz:**
 ```json
 {
-  "message": "Funds added successfully",
-  "new_balance": "1100.00",
-  "transaction": {
-    "id": 26,
-    "type": "deposit",
-    "amount": "100.00",
-    "payment_method": null
-  }
+    "message": "Egyenleg sikeresen feltöltve",
+    "new_balance": "48020.00"
 }
+
 ```
 
-![Add Funds](./images/add_funds.png)
-*Egyenleg feltöltés*
+![Uploading image.png…]()
 
 ---
 
