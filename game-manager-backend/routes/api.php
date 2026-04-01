@@ -30,6 +30,11 @@ Route::get('/games/{game}/reviews', [ReviewController::class, 'index']);
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
+// Email verification check (csak auth kell, nem required verified)
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::get('/email/check', [AuthController::class, 'checkEmailVerified']);
+});
+
 // Email verification route (nem authentikált - signed URL)
 Route::get('/email/verify/{id}/{hash}', function (Request $request) {
     // Get user from route parameter
@@ -60,7 +65,6 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     // Email verification
     Route::post('/email/resend', [AuthController::class, 'resendVerification'])
         ->name('verification.resend');
-    Route::get('/email/check', [AuthController::class, 'checkEmailVerified']);
     
     // User Library
     Route::get('/library', [LibraryController::class, 'index']);

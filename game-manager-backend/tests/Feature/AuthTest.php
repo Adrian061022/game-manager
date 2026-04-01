@@ -31,8 +31,6 @@ class AuthTest extends TestCase
         $response->assertJsonStructure([
             'message',
             'user' => ['id', 'name', 'email'],
-            'access_token',
-            'token_type'
         ]);
         $this->assertDatabaseHas('users', [
             'email' => 'test@example.com',
@@ -62,8 +60,7 @@ class AuthTest extends TestCase
         $response->assertJsonStructure([
             'message',
             'user',
-            'access_token',
-            'token_type'
+            'token'
         ]);
     }
 
@@ -85,7 +82,7 @@ class AuthTest extends TestCase
         ]);
 
         // Assert
-        $response->assertStatus(422);
+        $response->assertStatus(401);
     }
 
     /**

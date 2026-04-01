@@ -31,10 +31,12 @@ class AuthController extends Controller
         $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json([
-            'message' => 'Sikeres regisztráció. Kérjük, erősítse meg az e-mail címét.',
-            'user' => $user,
-            'access_token' => $token,
-            'token_type' => 'Bearer',
+            'message' => 'User created successfully',
+            'user' => [
+                'id' => $user->id,
+                'name' => $user->name,
+                'email' => $user->email,
+            ],
         ], 201);
     }
 
@@ -48,26 +50,31 @@ class AuthController extends Controller
         $user = User::where('email', $request->email)->first();
 
         if (!$user || !Hash::check($request->password, $user->password)) {
-            throw ValidationException::withMessages([
-                'email' => ['A megadott adatok helytelenek.'],
-            ]);
+            return response()->json([
+                'message' => 'Invalid credentials',
+            ], 401);
         }
 
         // Check if email is verified
         if (!$user->hasVerifiedEmail()) {
             return response()->json([
-                'message' => 'Kérjük, erősítse meg az e-mail címét a bejelentkezés előtt.',
+                'message' => 'Email not verified. Please verify your email before logging in.',
             ], 403);
         }
 
         $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json([
-            'message' => 'Sikeres bejelentkezés',
-            'user' => $user,
-            'access_token' => $token,
-            'token_type' => 'Bearer',
-            'email_verified' => $user->hasVerifiedEmail(),
+            'message' => 'Login successful',
+            'user' => [
+                'id' => $user->id,
+                'name' => $user->name,
+                'email' => $user->email,
+                'role' => $user->role,
+                'balance' => number_format($user->balance, 2, '.', ''),
+                'email_verified' => $user->hasVerifiedEmail(),
+            ],
+            'token' => $token,
         ]);
     }
 
@@ -188,8 +195,11 @@ class AuthController extends Controller
      */
     public function checkEmailVerified(Request $request)
     {
+        $isVerified = $request->user()->hasVerifiedEmail();
+        
         return response()->json([
-            'verified' => $request->user()->hasVerifiedEmail(),
+            'verified' => $isVerified,
+            'message' => $isVerified ? 'Email is verified' : 'Email is not verified'
         ]);
     }
 }
