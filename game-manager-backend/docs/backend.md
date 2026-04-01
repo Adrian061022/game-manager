@@ -54,7 +54,7 @@ A Game Manager backend egy Laravel 12 alapú REST API, amely játékok kezelés�
 ### 1. Repository klónozása
 
 ```bash
-git clone https://github.com/Adrian061022/game-manager.git
+git clone https://github.com/yourusername/game-manager.git
 cd game-manager/game-manager-backend
 ```
 
@@ -64,14 +64,14 @@ cd game-manager/game-manager-backend
 composer install
 ```
 
-### 3. Környezeti változók beállítása
+### 3. Environment fájl beállítása
 
 ```bash
 cp .env.example .env
 php artisan key:generate
 ```
 
-### 4. .env konfiguráció
+### 4. .env fájl konfigurálása
 
 ```env
 APP_NAME="Game Manager"
@@ -168,7 +168,7 @@ A szerver elérhető: `http://localhost:8000`
 | deleted_at | timestamp | Soft delete |
 
 ![Games tábla](./images/games_table.png)
-*Games tábla 12 seed játékkal*
+*Games tábla struktúra*
 
 ### Reviews (Vélemények)
 
@@ -1229,53 +1229,3 @@ Game::onlyTrashed()->get(); // Csak töröltek
 
 ---
 
-## GitHub Repository
-
-**Repository:** [https://github.com/Adrian061022/game-manager](https://github.com/Adrian061022/game-manager)
-
-**Branch:** `merge`
-
-### Klónozás és futtatás
-
-```bash
-git clone https://github.com/Adrian061022/game-manager.git
-cd game-manager/game-manager-backend
-composer install
-cp .env.example .env
-php artisan key:generate
-php artisan migrate --seed
-php artisan serve
-```
-
----
-
-## Kapcsolat & Támogatás
-
-**Fejlesztő:** Adrian
-
-**Email:** adrian@example.com
-
-**License:** MIT
-
----
-
-## Changelog
-
-### v1.0.0 - 2026-03-31
-
-- ✅ Laravel 12 alapú REST API
-- ✅ Sanctum autentikáció
-- ✅ Email verifikáció (Mailtrap)
-- ✅ Szerepkör alapú jogosultságkezelés
-- ✅ CRUD műveletek (Games, Reviews, Users)
-- ✅ Felhasználói könyvtár rendszer
-- ✅ Tranzakció követés
-- ✅ Soft delete támogatás
-- ✅ CORS konfiguráció
-- ✅ Postman collection (40+ endpoint)
-- ✅ PHPUnit feature tesztek (18 teszt)
-- ✅ Teljes dokumentáció
-
----
-
-*Utolsó frissítés: 2026. március 31.*

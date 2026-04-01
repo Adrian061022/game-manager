@@ -15,8 +15,13 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
+            $table->enum('role', ['user', 'admin'])->default('user');
+            $table->string('profile_picture')->nullable();
+            $table->text('bio')->nullable();
+            $table->boolean('is_public')->default(true);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->decimal('balance', 10, 2)->default(0);
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

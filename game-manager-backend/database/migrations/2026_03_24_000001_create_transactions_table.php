@@ -13,6 +13,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->enum('type', ['purchase', 'top_up']);
             $table->decimal('amount', 12, 2);
+            $table->enum('payment_method', ['balance', 'card'])->default('balance');
             $table->foreignId('game_id')->nullable()->constrained()->onDelete('set null');
             $table->timestamps();
         });
