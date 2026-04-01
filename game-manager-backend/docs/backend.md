@@ -580,8 +580,7 @@ Content-Type: application/json
 }
 
 ```
-
-![Uploading image.png…]()
+<img width="1330" height="173" alt="image" src="https://github.com/user-attachments/assets/c6a71038-fe27-4902-b5bf-3d0de649ce57" />
 
 ---
 
@@ -602,23 +601,24 @@ Content-Type: application/json
 **Válasz:**
 ```json
 {
-  "message": "Review created successfully",
-  "review": {
-    "id": 15,
-    "user_id": 2,
-    "game_id": 1,
-    "rating": 5,
-    "comment": "Fantasztikus játék!",
-    "user": {
-      "id": 2,
-      "name": "Test User"
+    "message": "Értékelés sikeresen hozzáadva!",
+    "data": {
+        "user_id": 10,
+        "game_id": 2,
+        "rating": 5,
+        "comment": "Kiváló játék, nagyon élveztem!",
+        "updated_at": "2026-04-01T16:25:45.000000Z",
+        "created_at": "2026-04-01T16:25:45.000000Z",
+        "id": 2,
+        "user": {
+            "id": 10,
+            "name": "Test User",
+            "profile_picture": null
+        }
     }
-  }
 }
 ```
-
-![Create Review](./images/create_review.png)
-*Vélemény írása*
+<img width="1319" height="388" alt="image" src="https://github.com/user-attachments/assets/99f5602b-ebd0-4df0-98e0-cc80a5debede" />
 
 ---
 
@@ -631,10 +631,25 @@ Authorization: Bearer {token}
 Content-Type: application/json
 
 {
-  "rating": 4,
-  "comment": "Nagyon jó játék!"
+    "message": "Értékelés frissítve!",
+    "data": {
+        "id": 2,
+        "user_id": 10,
+        "game_id": 2,
+        "rating": 4,
+        "comment": "Frissített értékelés - még mindig jó!",
+        "created_at": "2026-04-01T16:25:45.000000Z",
+        "updated_at": "2026-04-01T16:28:32.000000Z",
+        "deleted_at": null,
+        "user": {
+            "id": 10,
+            "name": "Test User",
+            "profile_picture": null
+        }
+    }
 }
 ```
+<img width="1318" height="403" alt="image" src="https://github.com/user-attachments/assets/46ad377b-6253-4603-a9a8-3666a23638d2" />
 
 ---
 
@@ -649,9 +664,10 @@ Authorization: Bearer {token}
 **Válasz:**
 ```json
 {
-  "message": "Review deleted successfully"
+    "message": "Értékelés törölve!"
 }
 ```
+<img width="1318" height="144" alt="image" src="https://github.com/user-attachments/assets/26b00e17-b783-4641-92b6-af10b0b5b705" />
 
 ---
 
@@ -666,12 +682,20 @@ Authorization: Bearer {admin_token}
 Content-Type: application/json
 
 {
-  "title": "Hades",
-  "category_id": 1,
-  "description": "Defy the god of the dead as you hack and slash out of the Underworld in this rogue-like dungeon crawler.",
-  "price": 5990.00,
-  "cover_image": "https://cdn.cloudflare.steamstatic.com/steam/apps/1145360/header.jpg",
-  "playable_url": null
+    "data": {
+        "id": 13,
+        "title": "New Test Game",
+        "description": "A newly created test game",
+        "price": "4990.00",
+        "cover_image": "https://via.placeholder.com/460x215",
+        "category": {
+            "id": 1,
+            "name": "Action",
+            "slug": "action"
+        },
+        "created_at": "2026-04-01T16:31:24.000000Z",
+        "updated_at": "2026-04-01T16:31:24.000000Z"
+    }
 }
 ```
 
@@ -687,9 +711,7 @@ Content-Type: application/json
   }
 }
 ```
-
-![Create Game](./images/create_game.png)
-*Új játék létrehozása (admin)*
+<img width="1322" height="376" alt="image" src="https://github.com/user-attachments/assets/137f7081-f163-4d5b-8458-a8dbd63b3c02" />
 
 ---
 
@@ -702,10 +724,23 @@ Authorization: Bearer {admin_token}
 Content-Type: application/json
 
 {
-  "title": "Updated Game Title",
-  "price": 29.99
+    "data": {
+        "id": 13,
+        "title": "Updated Game Title",
+        "description": "A newly created test game",
+        "price": "5990.00",
+        "cover_image": "https://via.placeholder.com/460x215",
+        "category": {
+            "id": 1,
+            "name": "Action",
+            "slug": "action"
+        },
+        "created_at": "2026-04-01T16:31:24.000000Z",
+        "updated_at": "2026-04-01T16:33:12.000000Z"
+    }
 }
 ```
+<img width="1314" height="360" alt="image" src="https://github.com/user-attachments/assets/378ef854-fd92-40ac-b42b-7614141ceaa4" />
 
 ---
 
@@ -720,12 +755,10 @@ Authorization: Bearer {admin_token}
 **Válasz:**
 ```json
 {
-  "message": "Game deleted successfully"
+    "message": "Játék sikeresen törölve"
 }
 ```
-
-![Delete Game](./images/delete_game.png)
-*Játék törlése (soft delete)*
+<img width="1313" height="154" alt="image" src="https://github.com/user-attachments/assets/6441f817-b310-44a8-8475-2066b9bd3595" />
 
 ---
 
@@ -741,23 +774,28 @@ Authorization: Bearer {admin_token}
 ```json
 [
   {
-    "id": 1,
-    "user_id": 2,
-    "type": "purchase",
-    "amount": "59.99",
-    "payment_method": "balance",
-    "created_at": "2026-03-20T10:30:00.000000Z",
-    "user": {
-      "id": 2,
-      "name": "Test User",
-      "email": "test@example.com"
-    }
-  }
+{
+    "current_page": 1,
+    "data": [
+        {
+            "id": 9,
+            "user_id": 10,
+            "type": "top_up",
+            "amount": "38020.00",
+            "payment_method": "balance",
+            "game_id": null,
+            "created_at": "2026-04-01T16:24:28.000000Z",
+            "updated_at": "2026-04-01T16:24:28.000000Z",
+            "user": {
+                "id": 10,
+                "name": "Test User",
+                "email": "test616@example.com"
+            },
+            "game": null
+        }
 ]
 ```
-
-![Admin Transactions](./images/admin_transactions.png)
-*Tranzakciók listázása (admin)*
+<img width="1319" height="409" alt="image" src="https://github.com/user-attachments/assets/e238ff54-4754-42ae-a62d-a2f4138289db" />
 
 ---
 
@@ -863,76 +901,54 @@ MAIL_FROM_NAME="${APP_NAME}"
 **Email sablon:**
 Laravel alapértelmezett email verification template-et használ.
 
-![Mailtrap Dashboard](./images/mailtrap_dashboard.png)
-*Mailtrap dashboard*
+<img width="1594" height="332" alt="image" src="https://github.com/user-attachments/assets/dcda271b-9cd5-4f5a-b16a-7190e84ab7e2" />
 
-![Verification Email Content](./images/verification_email.png)
-*Email verifikációs email tartalma*
+<img width="417" height="59" alt="image" src="https://github.com/user-attachments/assets/ded5c5ca-db84-4a72-8b36-7fbc17427839" />
 
 ---
-
-## Postman Tesztelés
-
-### Collection Import
-
-1. **Postman megnyitása**
-2. **Import** gomb → **Upload Files**
-3. Select: `Game_Manager_API.postman_collection.json`
-
-![Postman Import](./images/postman_import.png)
-*Postman collection import*
 
 ### Collection struktúra
 
 ```
 📁 Game Manager API
+├── 📁 Test
+│   └── API Test
 ├── 📁 Auth
 │   ├── Register
-│   ├── Login (Admin)
-│   ├── Login (User)
-│   ├── Logout
-│   └── Get User
+│   ├── Login
+│   ├── Login - Invalid Credentials
+│   ├── Get User Profile
+│   ├── Update Profile
+│   └── Logout
 ├── 📁 Email Verification
-│   ├── Verify Email
-│   ├── Resend Verification
-│   └── Check Verification Status
+│   ├── Check Email Verified Status
+│   └── Resend Verification Email
 ├── 📁 Games
 │   ├── Get All Games
-│   ├── Get Game by ID
-│   ├── Create Game (Admin)
-│   ├── Update Game (Admin)
-│   └── Delete Game (Admin)
+│   ├── Get Game By ID
+│   ├── Create Game (Admin Only)
+│   ├── Update Game (Admin Only)
+│   ├── Delete Game (Admin Only)
+│   └── Get All Transactions (Admin Only)
 ├── 📁 Library
 │   ├── Get My Library
 │   ├── Purchase Game
-│   ├── Check Ownership
+│   ├── Check Game Ownership
 │   └── Add Funds
 ├── 📁 Reviews
 │   ├── Get Game Reviews
 │   ├── Create Review
 │   ├── Update Review
 │   └── Delete Review
+├── 📁 Users
+│   ├── Get User By ID
+│   └── Get User Library (Public)
 ├── 📁 Categories
 │   └── Get All Categories
-├── 📁 Admin
-│   └── Get All Transactions
 └── 📁 Unauthorized Tests
-    ├── Create Game without Auth
-    ├── Create Game as User (not admin)
-    └── Access Protected Route without Token
+    ├── Access Protected Route Without Token
+    └── Non-Admin Access Admin Route
 ```
-
-### Environment Variables
-
-**Collection Variables:**
-- `base_url`: `http://localhost:8000/api`
-- `auth_token`: (automatikusan beállítva login után)
-- `user_id`: (automatikusan beállítva)
-- `game_id`: `1`
-- `review_id`: (automatikusan beállítva)
-
-![Postman Variables](./images/postman_variables.png)
-*Postman collection változók*
 
 ### Automatikus Tesztek
 
