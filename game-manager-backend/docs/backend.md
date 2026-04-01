@@ -142,7 +142,7 @@ A szerver elérhető: `http://localhost:8000`
 | password | string | Jelszó hash |
 | role | enum('user','admin') | Szerepkör |
 | balance | decimal(10,2) | Egyenleg |
-| phone | string(20) | Telefonszám |
+| profile_picture | string | Profil kép URL |
 | bio | text | Bemutatkozás |
 | is_public | boolean | Profil láthatósága |
 | deleted_at | timestamp | Soft delete |
@@ -303,8 +303,7 @@ Content-Type: application/json
   "name": "Test User",
   "email": "test@example.com",
   "password": "Password123!",
-  "password_confirmation": "Password123!",
-  "phone": "+36301234567"
+  "password_confirmation": "Password123!"
 }
 ```
 
@@ -315,8 +314,7 @@ Content-Type: application/json
   "user": {
     "id": 3,
     "name": "Test User",
-    "email": "test@example.com",
-    "phone": "+36301234567"
+    "email": "test@example.com"
   }
 }
 ```
@@ -473,7 +471,7 @@ Authorization: Bearer {token}
   "email": "admin@example.com",
   "role": "admin",
   "balance": "1000.00",
-  "phone": "+36301234567",
+  "profile_picture": null,
   "bio": "Game enthusiast",
   "is_public": true
 }
@@ -494,7 +492,6 @@ Content-Type: application/json
 
 {
   "name": "Updated Name",
-  "phone": "+36309876543",
   "bio": "New bio",
   "is_public": false
 }
@@ -507,7 +504,6 @@ Content-Type: application/json
   "user": {
     "id": 1,
     "name": "Updated Name",
-    "phone": "+36309876543",
     "bio": "New bio",
     "is_public": false
   }
@@ -1038,36 +1034,31 @@ php artisan test
 **Kimenet:**
 ```
   PASS  Tests\Feature\AuthTest
-  ✓ user can register                                    0.15s
-  ✓ user cannot register with invalid data               0.02s
-  ✓ user can login                                        0.03s
-  ✓ user cannot login without email verification         0.02s
-  ✓ user can logout                                       0.02s
+  ✓ user can register                                     0.73s
+  ✓ user can login with correct credentials               0.05s
+  ✓ user cannot login with incorrect credentials          0.04s
+  ✓ authenticated user can logout                         0.04s
 
   PASS  Tests\Feature\GameTest
-  ✓ can get all games                                     0.02s
-  ✓ can get game by id                                    0.01s
-  ✓ admin can create game                                 0.03s
-  ✓ user cannot create game                               0.02s
-  ✓ admin can update game                                 0.02s
-  ✓ admin can delete game                                 0.02s
+  ✓ returns all games                                     0.05s
 
   PASS  Tests\Feature\LibraryTest
-  ✓ user can purchase game with balance                   0.05s
-  ✓ user cannot purchase without enough balance           0.03s
-  ✓ user cannot purchase same game twice                  0.02s
-  ✓ user can add funds                                    0.02s
-  ✓ user can view library                                 0.02s
+  ✓ user can purchase game with sufficient balance        0.04s
+  ✓ user cannot purchase game with insufficient balance   0.03s
+  ✓ user cannot purchase same game twice                  0.03s
+  ✓ user can add funds to balance                         0.03s
+  ✓ user can view their library                           0.04s
 
   PASS  Tests\Feature\ReviewTest
-  ✓ user can create review                                0.03s
-  ✓ user can update own review                            0.02s
-  ✓ user cannot update others review                      0.02s
-  ✓ user can delete own review                            0.02s
-  ✓ deleted review is soft deleted                        0.01s
+  ✓ authenticated user can create review                  0.04s
+  ✓ user cannot review same game twice                    0.04s
+  ✓ user can update their own review                      0.03s
+  ✓ user cannot update another users review               0.03s
+  ✓ user can delete their own review                      0.03s
+  ✓ anyone can view game reviews                          0.04s
 
-  Tests:    18 passed (53 assertions)
-  Duration: 0.68s
+  Tests:    16 passed (51 assertions)
+  Duration: 1.63s
 ```
 
 ![PHPUnit Test Results](./images/phpunit_results.png)
@@ -1080,25 +1071,29 @@ php artisan test
 **tests/Feature/AuthTest.php**
 
 ```php
-public function test_user_can_register()
+public function test_user_can_register(): void
 {
-    $response = $this->postJson('/api/register', [
+    // Arrange
+    $userData = [
         'name' => 'Test User',
         'email' => 'test@example.com',
-        'password' => 'Password123!',
-        'password_confirmation' => 'Password123!',
-    ]);
+        'password' => 'password123',
+        'password_confirmation' => 'password123'
+    ];
 
+    // Act
+    $response = $this->postJson('/api/register', $userData);
+
+    // Assert
     $response->assertStatus(201)
-             ->assertJsonStructure(['message', 'user']);
+             ->assertJsonStructure(['message', 'user', 'access_token']);
 }
 ```
 
 **Teszteli:**
 - ✅ Sikeres regisztráció
-- ✅ Hibás adatokkal regisztráció visszautasítása
-- ✅ Sikeres bejelentkezés
-- ✅ Email verifikáció nélküli bejelentkezés blokkolása
+- ✅ Sikeres bejelentkezés helyes adatokkal
+- ✅ Sikertelen bejelentkezés helytelen adatokkal
 - ✅ Kijelentkezés
 
 #### 2. GameTest
@@ -1106,12 +1101,7 @@ public function test_user_can_register()
 **tests/Feature/GameTest.php**
 
 **Teszteli:**
-- ✅ Játékok listázása
-- ✅ Egy játék lekérdezése
-- ✅ Admin játék létrehozása
-- ✅ User nem hozhat létre játékot
-- ✅ Admin játék módosítása
-- ✅ Admin játék törlése (soft delete)
+- ✅ Játékok listázásának működése
 
 #### 3. LibraryTest
 
