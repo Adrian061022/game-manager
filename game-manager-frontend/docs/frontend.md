@@ -2,6 +2,9 @@
 
 ## Áttekintés
 
+<img width="1915" height="924" alt="image" src="https://github.com/user-attachments/assets/8006c3f0-1371-4430-b9fc-83d00fba63b9" />
+
+
 Az alkalmazás frontendja **Angular** keretrendszerrel készült (standalone komponens architektúra). A backend Laravel REST API-val kommunikál HTTP-n keresztül, az API alap URL-je: `http://localhost:8000/api`.
 
 ---
@@ -63,24 +66,27 @@ A védett útvonalakon az `authGuard` ellenőrzi, hogy a felhasználó be van-e 
 
 ## Komponensek
 
+<img width="1226" height="74" alt="image" src="https://github.com/user-attachments/assets/8c201600-e455-4e50-a4e8-56263243605e" />
+
+
 ### `Navbar`
 - Megjeleníti a navigációs sávot.
 - Bejelentkezett felhasználónak mutatja a nevet, egyenleget, kosár ikont, profil linket.
 - Admin felhasználónak admin menüpontokat jelenít meg (új játék, tranzakciók).
 - Kijelentkezés gomb.
 
-![alt text](image.png)
+
 
 ### `Footer`
-- Egyszerű lábléc komponens.
 
-![alt text](image-1.png)
+<img width="1898" height="238" alt="image" src="https://github.com/user-attachments/assets/8cc17cf7-8e41-48a7-ba00-99db1b9cf0af" />
+
+- Egyszerű lábléc komponens.
 ---
 
 ### `Home`
 
-![alt text](image-2.png)
-
+<img width="1912" height="908" alt="image" src="https://github.com/user-attachments/assets/ca0273bf-8bd2-40c3-8771-9deeefacbc71" />
 
 **Fájl:** `components/home/home.ts`
 
@@ -99,7 +105,8 @@ A főoldal, amely a játékok listáját jeleníti meg oldalszámozással és sz
 
 ### `GameDetails`
 
-![alt text](image-3.png)
+<img width="1247" height="730" alt="image" src="https://github.com/user-attachments/assets/1340e57e-cb41-415a-bb89-d135abdc6e42" />
+
 
 **Fájl:** `components/game-details/game-details.ts`
 
@@ -121,7 +128,8 @@ Egy adott játék részletes oldala.
 ### `Login`
 **Fájl:** `components/login/login.ts`
 
-![alt text](image-4.png)
+<img width="850" height="607" alt="image" src="https://github.com/user-attachments/assets/04495581-2e55-4993-96ee-419472706f93" />
+
 
 Bejelentkezési form.
 
@@ -134,7 +142,8 @@ Bejelentkezési form.
 
 ### `Register`
 
-![alt text](image-5.png)
+<img width="461" height="618" alt="image" src="https://github.com/user-attachments/assets/015fbf26-7cc1-41c8-8fef-67a4755a4255" />
+
 
 **Fájl:** `components/register/register.ts`
 
@@ -151,7 +160,8 @@ Regisztrációs form.
 ### `Profile`
 
 
-![alt text](image-6.png)
+<img width="1189" height="532" alt="image" src="https://github.com/user-attachments/assets/9c141a27-ecc9-4efd-a5be-79f687bb6b80" />
+
 
 **Fájl:** `components/profile/profile.ts`
 
@@ -168,7 +178,8 @@ Felhasználói profiloldal.
 
 ### `GameForm` (Admin)
 
-![alt text](image-7.png)
+<img width="1255" height="893" alt="image" src="https://github.com/user-attachments/assets/8602f05e-2034-4cb3-b1b5-0b77fad55ca7" />
+
 
 **Fájl:** `components/admin/game-form/game-form.ts`
 
@@ -183,7 +194,8 @@ Adminisztrátori form játék létrehozásához és szerkesztéséhez.
 
 ### `Transactions` (Admin)
 
-![alt text](image-8.png)
+<img width="1249" height="307" alt="image" src="https://github.com/user-attachments/assets/0afa71d9-e9bf-41a1-8021-47d87627960b" />
+
 
 **Fájl:** `components/admin/transactions/transactions.ts`
 
@@ -198,7 +210,8 @@ Adminisztrátori tranzakciós lista.
 
 ### `CartModal`
 
-![alt text](image-9.png)
+<img width="535" height="544" alt="image" src="https://github.com/user-attachments/assets/d8c0f78b-c901-4699-ab7b-46daa624f4af" />
+
 
 **Fájl:** `components/cart-modal/cart-modal.ts`
 
@@ -214,7 +227,8 @@ Kosár modal ablak.
 
 ### `TopUpModal`
 
-![alt text](image-10.png)
+<img width="1530" height="925" alt="image" src="https://github.com/user-attachments/assets/9e943cc1-c269-4725-bba4-3b359988f61b" />
+
 
 **Fájl:** `components/top-up-modal/top-up-modal.ts`
 
