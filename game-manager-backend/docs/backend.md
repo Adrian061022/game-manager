@@ -130,6 +130,8 @@ A szerver elérhető: `http://localhost:8000`
 ├── cache (cache storage)
 └── jobs (queue jobs)
 ```
+<img width="434" height="223" alt="image" src="https://github.com/user-attachments/assets/65c71a3f-cc62-4f30-b0e4-86acae98e5bf" />
+
 
 ### Users (Felhasználók)
 
