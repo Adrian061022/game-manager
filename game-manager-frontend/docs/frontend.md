@@ -15,8 +15,6 @@ Az alkalmazás frontendja **Angular** keretrendszerrel készült (standalone kom
 | TypeScript | ~5.9.2 |
 | Zone.js | ~0.15.0 |
 
-Fejlesztői eszközök: Angular CLI, Karma + Jasmine (tesztelés).
-
 ---
 
 ## Mappaszerkezet
@@ -71,12 +69,19 @@ A védett útvonalakon az `authGuard` ellenőrzi, hogy a felhasználó be van-e 
 - Admin felhasználónak admin menüpontokat jelenít meg (új játék, tranzakciók).
 - Kijelentkezés gomb.
 
+![alt text](image.png)
+
 ### `Footer`
 - Egyszerű lábléc komponens.
 
+![alt text](image-1.png)
 ---
 
 ### `Home`
+
+![alt text](image-2.png)
+
+
 **Fájl:** `components/home/home.ts`
 
 A főoldal, amely a játékok listáját jeleníti meg oldalszámozással és szűrési lehetőséggel.
@@ -93,6 +98,9 @@ A főoldal, amely a játékok listáját jeleníti meg oldalszámozással és sz
 ---
 
 ### `GameDetails`
+
+![alt text](image-3.png)
+
 **Fájl:** `components/game-details/game-details.ts`
 
 Egy adott játék részletes oldala.
@@ -113,6 +121,8 @@ Egy adott játék részletes oldala.
 ### `Login`
 **Fájl:** `components/login/login.ts`
 
+![alt text](image-4.png)
+
 Bejelentkezési form.
 
 **Funkciók:**
@@ -123,6 +133,9 @@ Bejelentkezési form.
 ---
 
 ### `Register`
+
+![alt text](image-5.png)
+
 **Fájl:** `components/register/register.ts`
 
 Regisztrációs form.
@@ -136,6 +149,10 @@ Regisztrációs form.
 ---
 
 ### `Profile`
+
+
+![alt text](image-6.png)
+
 **Fájl:** `components/profile/profile.ts`
 
 Felhasználói profiloldal.
@@ -150,6 +167,9 @@ Felhasználói profiloldal.
 ---
 
 ### `GameForm` (Admin)
+
+![alt text](image-7.png)
+
 **Fájl:** `components/admin/game-form/game-form.ts`
 
 Adminisztrátori form játék létrehozásához és szerkesztéséhez.
@@ -162,6 +182,9 @@ Adminisztrátori form játék létrehozásához és szerkesztéséhez.
 ---
 
 ### `Transactions` (Admin)
+
+![alt text](image-8.png)
+
 **Fájl:** `components/admin/transactions/transactions.ts`
 
 Adminisztrátori tranzakciós lista.
@@ -174,6 +197,9 @@ Adminisztrátori tranzakciós lista.
 ---
 
 ### `CartModal`
+
+![alt text](image-9.png)
+
 **Fájl:** `components/cart-modal/cart-modal.ts`
 
 Kosár modal ablak.
@@ -187,6 +213,9 @@ Kosár modal ablak.
 ---
 
 ### `TopUpModal`
+
+![alt text](image-10.png)
+
 **Fájl:** `components/top-up-modal/top-up-modal.ts`
 
 Egyenleg feltöltési modal ablak.
@@ -282,28 +311,87 @@ Adminisztrátori tranzakció lekérdezés.
 ## Modellek (Interfészek)
 
 ### `User`
-```typescript
-{ id, name, email, role?, balance?, profile_picture?, bio?, is_public?, created_at?, updated_at? }
+```php
+
+export interface User {
+  id: number;
+  name: string;
+  email: string;
+  role?: string;
+  balance?: number;
+  profile_picture?: string | null;
+  bio?: string | null;
+  is_public?: boolean;
+  created_at?: string;
+  updated_at?: string;
+}
+
 ```
 
 ### `Game`
-```typescript
-{ id, title, description, price, cover_image, category: Category, created_at?, updated_at? }
+```php
+
+export interface Game {
+  id: number;
+  title: string;
+  description: string;
+  price: string | number;
+  cover_image: string | null;
+  category: Category;
+  created_at?: string;
+  updated_at?: string;
+}
+
 ```
 
 ### `Category`
-```typescript
-{ id, name, slug }
+```php
+
+export interface Category {
+  id: number;
+  name: string;
+  slug: string;
+}
+
 ```
 
 ### `Review`
-```typescript
-{ id, user_id, game_id, rating, comment, created_at, updated_at, user?: { id, name, profile_picture } }
+```php
+
+export interface Review {
+  id: number;
+  user_id: number;
+  game_id: number;
+  rating: number;
+  comment: string | null;
+  created_at: string;
+  updated_at: string;
+  user?: {
+    id: number;
+    name: string;
+    profile_picture: string | null;
+  };
+}
+
+
 ```
 
 ### `Transaction`
-```typescript
-{ id, user_id, type: 'purchase'|'top_up', amount, game_id, created_at, updated_at, user?, game? }
+```php
+
+export interface Transaction {
+  id: number;
+  user_id: number;
+  type: 'purchase' | 'top_up';
+  amount: string | number;
+  game_id: number | null;
+  created_at: string;
+  updated_at: string;
+  user?: { id: number; name: string; email: string };
+  game?: { id: number; title: string } | null;
+}
+
+
 ```
 
 ---
