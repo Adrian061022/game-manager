@@ -207,18 +207,19 @@ GET http://localhost:8000/api/games
 ```json
 [
   {
-    "id": 1,
-    "title": "The Legend of Zelda: Breath of the Wild",
-    "category_id": 1,
-    "category": {
-      "id": 1,
-      "name": "Akció"
-    },
-    "description": "Nyílt világú kaland...",
-    "price": "59.99",
-    "image_url": "zelda.jpg",
-    "playable_url": null
-  }
+            "id": 1,
+            "title": "Counter-Strike 2",
+            "description": "For over two decades, Counter-Strike has offered an elite competitive experience, one shaped by millions of players from across the globe. And now the next chapter in the CS story is about to begin. This is Counter-Strike 2.",
+            "price": "0.00",
+            "cover_image": "https://cdn.cloudflare.steamstatic.com/steam/apps/730/header.jpg",
+            "category": {
+                "id": 5,
+                "name": "Shooter",
+                "slug": "shooter"
+            },
+            "created_at": "2026-04-01T13:01:01.000000Z",
+            "updated_at": "2026-04-01T13:01:01.000000Z"
+  },
 ]
 ```
 
