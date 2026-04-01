@@ -254,9 +254,7 @@ GET http://localhost:8000/api/games/1
   "average_rating": 0
 }
 ```
-
-![Game Details](./images/game_details.png)
-*Játék részletek*
+<img width="1447" height="361" alt="image" src="https://github.com/user-attachments/assets/b9339acd-8931-42d5-b0cd-1ae3abe43ead" />
 
 ---
 
@@ -278,6 +276,7 @@ GET http://localhost:8000/api/categories
   { "id": 6, "name": "Racing", "slug": "racing" }
 ]
 ```
+<img width="1462" height="449" alt="image" src="https://github.com/user-attachments/assets/e923775f-16df-4cd3-bb35-adc021ad6ead" />
 
 ---
 
@@ -312,11 +311,9 @@ Content-Type: application/json
 
 **Email:** Verification email elküldve a Mailtrap-be
 
-![Register](./images/register.png)
-*Sikeres regisztráció*
+<img width="1444" height="326" alt="image" src="https://github.com/user-attachments/assets/2d359cbc-d346-4641-b0ae-c0efba354577" />
 
-![Mailtrap Email](./images/mailtrap_email.png)
-*Email verifikációs email a Mailtrap-ben*
+<img width="600" height="598" alt="image" src="https://github.com/user-attachments/assets/d3097bcc-d51a-4ddc-ae7e-02d108e21bdf" />
 
 ---
 
@@ -356,11 +353,7 @@ Content-Type: application/json
 }
 ```
 
-![Login Success](./images/login_success.png)
-*Sikeres bejelentkezés*
-
-![Login Email Not Verified](./images/login_not_verified.png)
-*Sikertelen bejelentkezés - nincs verifikálva az email*
+<img width="1452" height="442" alt="image" src="https://github.com/user-attachments/assets/ed479b3a-9c2c-4691-826c-ee9a32144e37" />
 
 ---
 
@@ -378,6 +371,7 @@ Authorization: Bearer {token}
   "message": "Logged out successfully"
 }
 ```
+<img width="1358" height="186" alt="image" src="https://github.com/user-attachments/assets/e71c5340-ae4e-4d65-aea5-05d023f803ca" />
 
 ---
 
