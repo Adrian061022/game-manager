@@ -147,7 +147,6 @@ A szerver elérhető: `http://localhost:8000`
 | profile_picture | string | Profil kép URL |
 | bio | text | Bemutatkozás |
 | is_public | boolean | Profil láthatósága |
-| remember_token | string(100) | "Emlékezz rám" token |
 | created_at | timestamp | Létrehozás időpontja |
 | updated_at | timestamp | Módosítás időpontja |
 | deleted_at | timestamp | Soft delete |
