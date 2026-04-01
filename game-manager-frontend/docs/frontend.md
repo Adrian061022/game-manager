@@ -66,10 +66,10 @@ A védett útvonalakon az `authGuard` ellenőrzi, hogy a felhasználó be van-e 
 
 ## Komponensek
 
-<img width="1226" height="74" alt="image" src="https://github.com/user-attachments/assets/8c201600-e455-4e50-a4e8-56263243605e" />
-
 
 ### `Navbar`
+
+<img width="1226" height="74" alt="image" src="https://github.com/user-attachments/assets/8c201600-e455-4e50-a4e8-56263243605e" />
 - Megjeleníti a navigációs sávot.
 - Bejelentkezett felhasználónak mutatja a nevet, egyenleget, kosár ikont, profil linket.
 - Admin felhasználónak admin menüpontokat jelenít meg (új játék, tranzakciók).
