@@ -381,41 +381,95 @@ php artisan test
 
 A `Game_Manager_API.postman_collection.json` fájl importálható Postmanbe, és tartalmazza az összes API végpontot kész kérésekkel.
 
-### Manuális tesztelési példák (curl)
+### Manuális tesztelési példák
 
-**Regisztráció**
-```bash
-curl -X POST http://localhost:8000/api/register \
-  -H "Content-Type: application/json" \
-  -d '{"name":"Teszt","email":"teszt@example.com","password":"password123","password_confirmation":"password123"}'
+---
+
+**Végpont:** `POST http://localhost:8000/api/register`
+
+**Leírás:** Felhasználó regisztrációja
+
+**Headerek:**
+```
+Content-Type: application/json
 ```
 
-**Bejelentkezés**
-```bash
-curl -X POST http://localhost:8000/api/login \
-  -H "Content-Type: application/json" \
-  -d '{"email":"teszt@example.com","password":"password123"}'
+**Body:**
+```json
+{
+  "name": "Teszt",
+  "email": "teszt@example.com",
+  "password": "password123",
+  "password_confirmation": "password123"
+}
 ```
 
-**Játékok lekérése (autentikáció nélkül)**
-```bash
-curl http://localhost:8000/api/games
+---
+
+**Végpont:** `POST http://localhost:8000/api/login`
+
+**Leírás:** Bejelentkezés
+
+**Headerek:**
+```
+Content-Type: application/json
 ```
 
-**Játék vásárlása (token szükséges)**
-```bash
-curl -X POST http://localhost:8000/api/library/purchase/1 \
-  -H "Authorization: Bearer <token>" \
-  -H "Content-Type: application/json" \
-  -d '{"payment_method":"balance"}'
+**Body:**
+```json
+{
+  "email": "teszt@example.com",
+  "password": "password123"
+}
 ```
 
-**Értékelés létrehozása (token szükséges)**
-```bash
-curl -X POST http://localhost:8000/api/games/1/reviews \
-  -H "Authorization: Bearer <token>" \
-  -H "Content-Type: application/json" \
-  -d '{"rating":5,"comment":"Remek játék!"}'
+---
+
+**Végpont:** `GET http://localhost:8000/api/games`
+
+**Leírás:** Játékok lekérése (autentikáció nélkül)
+
+**Headerek:** –
+
+**Body:** –
+
+---
+
+**Végpont:** `POST http://localhost:8000/api/library/purchase/1`
+
+**Leírás:** Játék vásárlása egyenlegből (token szükséges)
+
+**Headerek:**
+```
+Authorization: Bearer <token>
+Content-Type: application/json
+```
+
+**Body:**
+```json
+{
+  "payment_method": "balance"
+}
+```
+
+---
+
+**Végpont:** `POST http://localhost:8000/api/games/1/reviews`
+
+**Leírás:** Értékelés létrehozása (token szükséges)
+
+**Headerek:**
+```
+Authorization: Bearer <token>
+Content-Type: application/json
+```
+
+**Body:**
+```json
+{
+  "rating": 5,
+  "comment": "Remek játék!"
+}
 ```
 
 ### Fontos HTTP státuszkódok
