@@ -379,8 +379,6 @@ php artisan test
 
 ### Postman
 
-A `Game_Manager_API.postman_collection.json` fájl importálható Postmanbe, és tartalmazza az összes API végpontot kész kérésekkel.
-
 ### Manuális tesztelési példák
 
 ---
