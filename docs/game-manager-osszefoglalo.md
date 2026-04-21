@@ -310,3 +310,122 @@ Funkcionális HTTP interceptor. Minden kimenő kéréshez hozzáfűzi az `Author
 | Vendég (nem bejelentkezett) | Főoldal, játék részletek, login, regisztráció |
 | Felhasználó | + Profil, kosár, vásárlás, értékelés, könyvtár |
 | Admin | + Játék létrehozás/szerkesztés/törlés, tranzakciólista, bárki értékelésének törlése |
+
+---
+
+## 10. Adatbázis-tábla kapcsolatok
+
+### Táblák és kapcsolataik
+
+| Tábla | Kapcsolat | Másik tábla | Leírás |
+|---|---|---|---|
+| `users` | `belongsToMany` | `games` | Pivot: `user_game` (megvásárolt játékok) |
+| `games` | `belongsToMany` | `users` | Pivot: `user_game` |
+| `games` | `belongsTo` | `categories` | Egy játék egy kategóriába tartozik |
+| `categories` | `hasMany` | `games` | Egy kategóriának több játéka lehet |
+| `reviews` | `belongsTo` | `users` | Az értékelés egy felhasználóhoz tartozik |
+| `reviews` | `belongsTo` | `games` | Az értékelés egy játékhoz tartozik |
+| `games` | `hasMany` | `reviews` | Egy játéknak több értékelése lehet |
+| `transactions` | `belongsTo` | `users` | A tranzakció egy felhasználóhoz tartozik |
+| `transactions` | `belongsTo` | `games` | A tranzakció (opcionálisan) egy játékhoz tartozik |
+
+### Pivot tábla: `user_game`
+
+| Mező | Típus | Leírás |
+|---|---|---|
+| `user_id` | FK | Felhasználó azonosítója |
+| `game_id` | FK | Játék azonosítója |
+| `purchased_at` | timestamp | Vásárlás időpontja |
+
+### Soft delete
+
+A `users`, `games` és `reviews` táblák **soft delete**-et használnak (`deleted_at` mező). A törölt rekordok nem jelennek meg a lekérdezésekben, de az adatbázisban megmaradnak.
+
+### Kapcsolati diagram
+
+```
+categories ──< games >──< user_game >── users
+                  │
+                  └──< reviews >── users
+                  
+users ──< transactions >── games (nullable)
+```
+
+---
+
+## 11. Tesztelés
+
+A backend tesztek **PHPUnit** alapon futnak, Laravel `RefreshDatabase` traittel (minden teszt előtt az adatbázis újraépül). A tesztek a `tests/Feature/` mappában találhatók.
+
+### Tesztfájlok
+
+| Fájl | Leírás |
+|---|---|
+| `tests/Feature/AuthTest.php` | Regisztráció, bejelentkezés, kijelentkezés |
+| `tests/Feature/GameTest.php` | Játéklista lekérése |
+| `tests/Feature/ReviewTest.php` | Értékelések CRUD műveletek |
+| `tests/Feature/LibraryTest.php` | Vásárlás, könyvtár, egyenleg feltöltés |
+
+### Tesztek futtatása
+
+```bash
+cd game-manager-backend
+php artisan test
+```
+
+---
+
+## 12. Végpont tesztelés
+
+### Postman
+
+A `Game_Manager_API.postman_collection.json` fájl importálható Postmanbe, és tartalmazza az összes API végpontot kész kérésekkel.
+
+### Manuális tesztelési példák (curl)
+
+**Regisztráció**
+```bash
+curl -X POST http://localhost:8000/api/register \
+  -H "Content-Type: application/json" \
+  -d '{"name":"Teszt","email":"teszt@example.com","password":"password123","password_confirmation":"password123"}'
+```
+
+**Bejelentkezés**
+```bash
+curl -X POST http://localhost:8000/api/login \
+  -H "Content-Type: application/json" \
+  -d '{"email":"teszt@example.com","password":"password123"}'
+```
+
+**Játékok lekérése (autentikáció nélkül)**
+```bash
+curl http://localhost:8000/api/games
+```
+
+**Játék vásárlása (token szükséges)**
+```bash
+curl -X POST http://localhost:8000/api/library/purchase/1 \
+  -H "Authorization: Bearer <token>" \
+  -H "Content-Type: application/json" \
+  -d '{"payment_method":"balance"}'
+```
+
+**Értékelés létrehozása (token szükséges)**
+```bash
+curl -X POST http://localhost:8000/api/games/1/reviews \
+  -H "Authorization: Bearer <token>" \
+  -H "Content-Type: application/json" \
+  -d '{"rating":5,"comment":"Remek játék!"}'
+```
+
+### Fontos HTTP státuszkódok
+
+| Státusz | Jelentés |
+|---|---|
+| `200` | Sikeres lekérés / művelet |
+| `201` | Sikeres létrehozás |
+| `400` | Hibás kérés (pl. elégtelen egyenleg, duplikált vásárlás) |
+| `401` | Hitelesítés szükséges |
+| `403` | Nincs jogosultság |
+| `404` | Az erőforrás nem található |
+| `422` | Validációs hiba |
