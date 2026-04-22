@@ -1,34 +1,5 @@
 # Game Manager – Összefoglaló dokumentáció
 
-## Tartalomjegyzék
-
-- [Áttekintés](#áttekintés)
-- [Technológiai Stack](#technológiai-stack)
-- [Indítás](#indítás)
-
----
-
-## Backend
-
-- [Mappaszerkezet (Backend)](#mappaszerkezet-backend)
-- [Adatbázis Struktúra](#6-adatbázis-struktúra)
-- [API Végpontok](#api-végpontok)
-- [Autentikáció & Engedélyezés](#autentikáció--engedélyezés)
-- [Email Verifikáció](#email-verifikáció)
-- [Feature Tesztek](#feature-tesztek)
-- [CORS Konfiguráció](#cors-konfiguráció)
-- [Soft Delete](#soft-delete)
-
----
-
-## Frontend
-
-- [Frontend áttekintés](#frontend)
-- [Mappaszerkezet](#mappaszerkezet)
-- [Útvonalak](#útvonalak)
-- [Komponensek](#komponensek)
-- [Szolgáltatások (Services)](#szolgáltatások-services)
-- [Modellek (Interfészek)](#modellek-interfészek)
 
 ---
 
