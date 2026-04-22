@@ -1,6 +1,6 @@
 # Game Manager – Összefoglaló dokumentáció
 
-## 1. Projekt áttekintés
+## Projekt áttekintés
 
 A **Game Manager** egy webalapú játékkezelő és vásárlási platform. A frontend **Angular 20** (standalone komponens architektúra), a backend **Laravel REST API** alapon működik. Az API alap URL-je: `http://localhost:8000/api`.
 
@@ -31,7 +31,7 @@ Főbb funkciók:
 | **PHPUnit** | - | Tesztelés |
 ---
 
-## 3. Indítás
+## Indítás
 
 ```bash
 # Frontend
@@ -48,7 +48,7 @@ php artisan serve
 
 ---
 
-## 4. Mappaszerkezet (Frontend)
+## Mappaszerkezet (Frontend)
 
 ```
 src/
@@ -69,7 +69,7 @@ src/
     └── services/                  # API kommunikáció
 ```
 
-## 5. Mappaszerkezet (Backend)
+## Mappaszerkezet (Backend)
 
 ```
 
@@ -822,6 +822,339 @@ Authorization: Bearer {admin_token}
 <img width="1319" height="409" alt="image" src="https://github.com/user-attachments/assets/e238ff54-4754-42ae-a62d-a2f4138289db" />
 
 ---
+## Autentikáció & Engedélyezés
+
+### Laravel Sanctum
+
+A backend Laravel Sanctum-ot használ API token autentikációhoz.
+
+**Token generálás:**
+```php
+$token = $user->createToken('auth-token')->plainTextToken;
+```
+
+**Token használata:**
+```http
+Authorization: Bearer {token}
+```
+
+### Middleware-ek
+
+| Middleware | Cél | Használat |
+|-----------|-----|-----------|
+| `auth:sanctum` | Sanctum token ellenőrzés | Védett route-ok |
+| `verified` | Email verifikáció ellenőrzés | Verifikáció szükséges |
+| `admin` | Admin szerepkör ellenőrzés | Admin műveletek |
+| `signed` | URL aláírás ellenőrzés | Email verification link |
+
+**Példa védett route:**
+```php
+Route::middleware(['auth:sanctum', 'verified'])->group(function () {
+    Route::get('/user', [AuthController::class, 'user']);
+});
+```
+
+**Admin middleware:**
+```php
+// app/Http/Middleware/IsAdmin.php
+if ($request->user()->role !== 'admin') {
+    return response()->json(['message' => 'Unauthorized'], 403);
+}
+```
+
+---
+
+## Email Verifikáció
+
+### Implementáció lépései
+
+1. **User Model - MustVerifyEmail interfész**
+```php
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+class User extends Authenticatable implements MustVerifyEmail
+{
+    // ...
+}
+```
+
+2. **Register - Registered event kiváltása**
+```php
+use Illuminate\Auth\Events\Registered;
+
+event(new Registered($user));
+```
+
+3. **Login - Email verifikáció ellenőrzése**
+```php
+if (!$user->hasVerifiedEmail()) {
+    return response()->json([
+        'message' => 'Email not verified. Please verify your email before logging in.'
+    ], 403);
+}
+```
+
+4. **Verification Route (signed URL)**
+```php
+Route::get('/email/verify/{id}/{hash}', function (Request $request) {
+    $user = User::findOrFail($request->route('id'));
+    
+    if ($user->hasVerifiedEmail()) {
+        return response()->json(['message' => 'Email already verified.'], 200);
+    }
+    
+    $user->markEmailAsVerified();
+    return response()->json(['message' => 'Email verified successfully.'], 200);
+})->middleware(['signed'])->name('verification.verify');
+```
+
+### Mailtrap Konfiguráció
+
+**.env beállítások:**
+```env
+MAIL_MAILER=smtp
+MAIL_HOST=sandbox.smtp.mailtrap.io
+MAIL_PORT=2525
+MAIL_USERNAME=your_mailtrap_username
+MAIL_PASSWORD=your_mailtrap_password
+MAIL_FROM_ADDRESS="noreply@gamemanager.hu"
+MAIL_FROM_NAME="${APP_NAME}"
+```
+
+**Email sablon:**
+Laravel alapértelmezett email verification template-et használ.
+
+<img width="1594" height="332" alt="image" src="https://github.com/user-attachments/assets/dcda271b-9cd5-4f5a-b16a-7190e84ab7e2" />
+
+<img width="417" height="59" alt="image" src="https://github.com/user-attachments/assets/ded5c5ca-db84-4a72-8b36-7fbc17427839" />
+
+---
+
+### Collection struktúra
+
+```
+📁 Game Manager API
+├── 📁 Test
+│   └── API Test
+├── 📁 Auth
+│   ├── Register
+│   ├── Login
+│   ├── Login - Invalid Credentials
+│   ├── Get User Profile
+│   ├── Update Profile
+│   └── Logout
+├── 📁 Email Verification
+│   ├── Check Email Verified Status
+│   └── Resend Verification Email
+├── 📁 Games
+│   ├── Get All Games
+│   ├── Get Game By ID
+│   ├── Create Game (Admin Only)
+│   ├── Update Game (Admin Only)
+│   ├── Delete Game (Admin Only)
+│   └── Get All Transactions (Admin Only)
+├── 📁 Library
+│   ├── Get My Library
+│   ├── Purchase Game
+│   ├── Check Game Ownership
+│   └── Add Funds
+├── 📁 Reviews
+│   ├── Get Game Reviews
+│   ├── Create Review
+│   ├── Update Review
+│   └── Delete Review
+├── 📁 Users
+│   ├── Get User By ID
+│   └── Get User Library (Public)
+├── 📁 Categories
+│   └── Get All Categories
+└── 📁 Unauthorized Tests
+    ├── Access Protected Route Without Token
+    └── Non-Admin Access Admin Route
+```
+## Feature Tesztek
+
+### PHPUnit Tesztek Futtatása
+
+```bash
+php artisan test
+```
+
+**Kimenet:**
+```
+  PASS  Tests\Feature\AuthTest
+  ✓ user can register                                     0.73s
+  ✓ user can login with correct credentials               0.05s
+  ✓ user cannot login with incorrect credentials          0.04s
+  ✓ authenticated user can logout                         0.04s
+
+  PASS  Tests\Feature\GameTest
+  ✓ returns all games                                     0.05s
+
+  PASS  Tests\Feature\LibraryTest
+  ✓ user can purchase game with sufficient balance        0.04s
+  ✓ user cannot purchase game with insufficient balance   0.03s
+  ✓ user cannot purchase same game twice                  0.03s
+  ✓ user can add funds to balance                         0.03s
+  ✓ user can view their library                           0.04s
+
+  PASS  Tests\Feature\ReviewTest
+  ✓ authenticated user can create review                  0.04s
+  ✓ user cannot review same game twice                    0.04s
+  ✓ user can update their own review                      0.03s
+  ✓ user cannot update another users review               0.03s
+  ✓ user can delete their own review                      0.03s
+  ✓ anyone can view game reviews                          0.04s
+
+  Tests:    16 passed (51 assertions)
+  Duration: 1.63s
+```
+
+### Teszt Kategóriák
+
+#### 1. AuthTest
+
+**tests/Feature/AuthTest.php**
+
+```php
+public function test_user_can_register(): void
+{
+    // Arrange
+    $userData = [
+        'name' => 'Test User',
+        'email' => 'test@example.com',
+        'password' => 'password123',
+        'password_confirmation' => 'password123'
+    ];
+
+    // Act
+    $response = $this->postJson('/api/register', $userData);
+
+    // Assert
+    $response->assertStatus(201)
+             ->assertJsonStructure(['message', 'user', 'access_token']);
+}
+```
+
+**Teszteli:**
+- ✅ Sikeres regisztráció
+- ✅ Sikeres bejelentkezés helyes adatokkal
+- ✅ Sikertelen bejelentkezés helytelen adatokkal
+- ✅ Kijelentkezés
+
+#### 2. GameTest
+
+**tests/Feature/GameTest.php**
+
+**Teszteli:**
+- ✅ Játékok listázásának működése
+
+#### 3. LibraryTest
+
+**tests/Feature/LibraryTest.php**
+
+**Teszteli:**
+- ✅ Játék vásárlása egyenlegből
+- ✅ Nincs elég egyenleg hibakezelés
+- ✅ Duplikált vásárlás megakadályozása
+- ✅ Egyenleg feltöltés
+- ✅ Könyvtár megtekintése
+
+#### 4. ReviewTest
+
+**tests/Feature/ReviewTest.php**
+
+**Teszteli:**
+- ✅ Vélemény létrehozása
+- ✅ Saját vélemény módosítása
+- ✅ Más véleményének módosítása tiltva
+- ✅ Saját vélemény törlése
+- ✅ Soft delete ellenőrzése
+
+<img width="556" height="701" alt="image" src="https://github.com/user-attachments/assets/041b7851-7e0e-46b8-93c7-a5a59d6fe615" />
+
+### Test Coverage
+
+```bash
+php artisan test --coverage
+```
+
+**Coverage:**
+- Controllers: ~85%
+- Models: ~90%
+- Middleware: ~95%
+
+---
+
+## CORS Konfiguráció
+
+### bootstrap/app.php
+
+```php
+$middleware->api(prepend: [
+    \Illuminate\Http\Middleware\HandleCors::class,
+]);
+```
+
+### config/cors.php
+
+```php
+return [
+    'paths' => ['api/*', 'sanctum/csrf-cookie'],
+    'allowed_methods' => ['*'],
+    'allowed_origins' => ['http://localhost:4200'],
+    'allowed_headers' => ['*'],
+    'supports_credentials' => true,
+];
+```
+
+**Engedélyezett origin:**
+- Angular frontend: `http://localhost:4200`
+
+**CORS Headers:**
+- `Access-Control-Allow-Origin: http://localhost:4200`
+- `Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS`
+- `Access-Control-Allow-Headers: *`
+- `Access-Control-Allow-Credentials: true`
+
+---
+
+## Soft Delete
+
+### Implementáció
+
+**Migrations:**
+```php
+$table->softDeletes(); // deleted_at timestamp
+```
+
+**Models:**
+```php
+use Illuminate\Database\Eloquent\SoftDeletes;
+
+class Game extends Model
+{
+    use SoftDeletes;
+}
+```
+
+**Alkalmazás:**
+- Users tábla
+- Games tábla
+- Reviews tábla
+
+### Előnyök
+
+- ✅ Adat megmarad az adatbázisban
+- ✅ Visszaállítható `restore()` metódussal
+- ✅ Csak `deleted_at` timestamp kerül beállításra
+- ✅ Alapértelmezett query-k kihagyják a törölt rekordokat
+
+**Törölt elemek lekérdezése:**
+```php
+Game::withTrashed()->get(); // Töröltekkel együtt
+Game::onlyTrashed()->get(); // Csak töröltek
+```
 ## 6. Komponensek
 
 ### 6.1 `Navbar`
