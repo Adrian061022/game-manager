@@ -6,15 +6,15 @@ A **Game Manager** egy webalapú játékkezelő és vásárlási platform. A fro
 
 Főbb funkciók:
 
-Sanctum token alapú autentikáció
-Email verifikáció (Mailtrap integráció)
-Szerepkör alapú jogosultságkezelés (User/Admin)
-Játékok CRUD műveletek
-Felhasználói könyvtár (vásárlás, egyenleg kezelés)
-Véleményezési rendszer
-Tranzakció követés
-Soft delete támogatás
-CORS konfiguráció Angular frontend-hez
+- Sanctum token alapú autentikáció
+- Email verifikáció (Mailtrap integráció)
+- Szerepkör alapú jogosultságkezelés (User/Admin)
+- Játékok CRUD műveletek
+- Felhasználói könyvtár (vásárlás, egyenleg kezelés)
+- Véleményezési rendszer
+- Tranzakció követés
+- Soft delete támogatás
+- CORS konfiguráció Angular frontend-hez
 
 ---
 
