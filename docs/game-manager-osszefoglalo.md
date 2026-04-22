@@ -138,7 +138,7 @@ game-manager-backend/
 
 ---
 
-## Adatbázis Struktúra
+## 6. Adatbázis Struktúra
 
 ### Táblák áttekintése
 
