@@ -5,14 +5,15 @@
 - [Projekt áttekintés](#projekt-áttekintés)
 - [Technológiai Stack](#technológiai-stack)
 - [Indítás](#indítás)
-- [Mappaszerkezet (Backend)](#mappaszerkezet-backend)
-- [Adatbázis Struktúra](#adatbázis-struktúra)
-- [API Végpontok](#api-végpontok)
-- [Autentikáció & Engedélyezés](#autentikáció--engedélyezés)
-- [Email Verifikáció](#email-verifikáció)
-- [Feature Tesztek](#feature-tesztek)
-- [CORS Konfiguráció](#cors-konfiguráció)
-- [Soft Delete](#soft-delete)
+- [Backend](#backend)
+  - [Mappaszerkezet (Backend)](#mappaszerkezet-backend)
+  - [Adatbázis Struktúra](#adatbázis-struktúra)
+  - [API Végpontok](#api-végpontok)
+  - [Autentikáció & Engedélyezés](#autentikáció--engedélyezés)
+  - [Email Verifikáció](#email-verifikáció)
+  - [Feature Tesztek](#feature-tesztek)
+  - [CORS Konfiguráció](#cors-konfiguráció)
+  - [Soft Delete](#soft-delete)
 - [Frontend](#frontend)
   - [Áttekintés](#áttekintés)
   - [Mappaszerkezet](#mappaszerkezet)
@@ -69,6 +70,7 @@ cd game-manager-backend
 php artisan serve
 # → http://localhost:8000/api
 ```
+
 # Backend
 
 ## Mappaszerkezet (Backend)
