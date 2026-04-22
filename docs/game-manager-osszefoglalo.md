@@ -1140,7 +1140,7 @@ Game::onlyTrashed()->get(); // Csak töröltek
 <img width="1915" height="924" alt="image" src="https://github.com/user-attachments/assets/8006c3f0-1371-4430-b9fc-83d00fba63b9" />
 
 
-Az alkalmazás frontendja **Angular** keretrendszerrel készült (standalone komponens architektúra). A backend Laravel REST API-val kommunikál HTTP-n keresztül, az API alap URL-je: `http://localhost:8000/api`.
+### Az alkalmazás frontendja **Angular** keretrendszerrel készült (standalone komponens architektúra).
 
 ## Mappaszerkezet
 
@@ -1190,6 +1190,7 @@ A védett útvonalakon az `authGuard` ellenőrzi, hogy a felhasználó be van-e 
 ### `Navbar`
 
 <img width="1226" height="74" alt="image" src="https://github.com/user-attachments/assets/8c201600-e455-4e50-a4e8-56263243605e" />
+
 - Megjeleníti a navigációs sávot.
 - Bejelentkezett felhasználónak mutatja a nevet, egyenleget, kosár ikont, profil linket.
 - Admin felhasználónak admin menüpontokat jelenít meg (új játék, tranzakciók).
@@ -1200,6 +1201,7 @@ A védett útvonalakon az `authGuard` ellenőrzi, hogy a felhasználó be van-e 
 ### `Footer`
 
 <img width="1898" height="238" alt="image" src="https://github.com/user-attachments/assets/8cc17cf7-8e41-48a7-ba00-99db1b9cf0af" />
+
 
 - Egyszerű lábléc komponens.
 ---
@@ -1251,7 +1253,7 @@ Egy adott játék részletes oldala.
 <img width="850" height="607" alt="image" src="https://github.com/user-attachments/assets/04495581-2e55-4993-96ee-419472706f93" />
 
 
-Bejelentkezési form.
+Bejelentkezési felület.
 
 **Funkciók:**
 - Email + jelszó megadása.
@@ -1267,7 +1269,7 @@ Bejelentkezési form.
 
 **Fájl:** `components/register/register.ts`
 
-Regisztrációs form.
+Regisztrációs felület.
 
 **Funkciók:**
 - Név, email, jelszó, jelszó megerősítése megadása.
@@ -1303,7 +1305,7 @@ Felhasználói profiloldal.
 
 **Fájl:** `components/admin/game-form/game-form.ts`
 
-Adminisztrátori form játék létrehozásához és szerkesztéséhez.
+Adminisztrátori felület játék létrehozásához és szerkesztéséhez.
 
 **Funkciók:**
 - Cím, leírás, ár, borítókép URL, kategória megadása.
@@ -1335,7 +1337,7 @@ Adminisztrátori tranzakciós lista.
 
 **Fájl:** `components/cart-modal/cart-modal.ts`
 
-Kosár modal ablak.
+Kosár model ablak.
 
 **Funkciók:**
 - A kosárban lévő játékok listáját mutatja.
@@ -1352,7 +1354,7 @@ Kosár modal ablak.
 
 **Fájl:** `components/top-up-modal/top-up-modal.ts`
 
-Egyenleg feltöltési modal ablak.
+Egyenleg feltöltési model ablak.
 
 **Funkciók:**
 - Összeg megadása és elküldése az API felé.
