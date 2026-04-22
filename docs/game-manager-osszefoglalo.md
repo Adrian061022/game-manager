@@ -1,5 +1,45 @@
 # Game Manager – Összefoglaló dokumentáció
 
+## Tartalomjegyzék
+
+- [Projekt áttekintés](#projekt-áttekintés)
+- [Technológiai Stack](#technológiai-stack)
+- [Indítás](#indítás)
+- [Mappaszerkezet (Backend)](#mappaszerkezet-backend)
+- [Adatbázis Struktúra](#adatbázis-struktúra)
+  - [Táblák áttekintése](#táblák-áttekintése)
+  - [Users (Felhasználók)](#users-felhasználók)
+  - [Games (Játékok)](#games-játékok)
+  - [Reviews (Vélemények)](#reviews-vélemények)
+- [API Végpontok](#api-végpontok)
+  - [Publikus Végpontok](#publikus-végpontok)
+  - [Autentikációs Végpontok](#autentikációs-végpontok)
+  - [Email Verifikációs Végpont](#email-verifikációs-végpont)
+  - [Védett Végpontok (auth:sanctum + verified)](#védett-végpontok-authsanctum--verified)
+  - [Admin Végpontok (auth:sanctum + verified + admin)](#admin-végpontok-authsanctum--verified--admin)
+- [Autentikáció & Engedélyezés](#autentikáció--engedélyezés)
+  - [Laravel Sanctum](#laravel-sanctum)
+  - [Middleware-ek](#middleware-ek)
+- [Email Verifikáció](#email-verifikáció)
+  - [Implementáció lépései](#implementáció-lépései)
+  - [Mailtrap Konfiguráció](#mailtrap-konfiguráció)
+  - [Collection struktúra](#collection-struktúra)
+- [Feature Tesztek](#feature-tesztek)
+  - [PHPUnit Tesztek Futtatása](#phpunit-tesztek-futtatása)
+  - [Teszt Kategóriák](#teszt-kategóriák)
+  - [Test Coverage](#test-coverage)
+- [CORS Konfiguráció](#cors-konfiguráció)
+- [Soft Delete](#soft-delete)
+  - [Implementáció](#implementáció)
+  - [Előnyök](#előnyök)
+- [Frontend](#frontend)
+  - [Áttekintés](#áttekintés)
+  - [Mappaszerkezet](#mappaszerkezet)
+  - [Útvonalak](#útvonalak)
+  - [Komponensek](#komponensek)
+  - [Szolgáltatások (Services)](#szolgáltatások-services)
+  - [Modellek (Interfészek)](#modellek-interfészek)
+  - [Autentikáció és biztonság](#autentikáció-és-biztonság)
 
 ---
 
@@ -118,7 +158,7 @@ game-manager-backend/
 
 ---
 
-## 6. Adatbázis Struktúra
+## Adatbázis Struktúra
 
 ### Táblák áttekintése
 
