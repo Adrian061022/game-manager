@@ -399,7 +399,7 @@ Authorization: Bearer {token}
 
 ---
 
-### ✉️ Email Verifikációs Végpont
+### Email Verifikációs Végpont
 
 ---
 
