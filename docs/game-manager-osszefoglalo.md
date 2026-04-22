@@ -67,6 +67,69 @@ src/
     ├── interceptors/              # HTTP interceptorok
     ├── models/                    # TypeScript interfészek
     └── services/                  # API kommunikáció
+
+## Mappaszerkezet (Backend)
+
+game-manager-backend/
+├── `artisan`                      # Laravel CLI indító fájl
+├── `composer.json`                # PHP függőségek és autoload beállítások
+├── `composer.lock`                # zárolt függőségverziók
+├── `Game_Manager_API.postman_collection.json` # Postman API kollekció
+├── `phpunit.xml`                  # PHPUnit konfiguráció
+├── `README_API.md`                # API dokumentáció
+├── `README.md`                    # projekt általános leírása
+├── `.env`                         # környezeti változók (lokális konfiguráció)
+├── app/
+│   ├── Http/
+│   │   ├── Controllers/           # HTTP kontrollerek (API / web)
+│   │   ├── Middleware/            # köztes rétegek (auth, throttle, stb.)
+│   │   ├── Requests/              # FormRequest validációs osztályok
+│   │   └── Resources/             # API Resource/transformer osztályok
+│   ├── Models/
+│   │   ├── `Category.php`         # Category Eloquent modell
+│   │   ├── `Game.php`             # Game Eloquent modell
+│   │   ├── `Review.php`           # Review modell
+│   │   ├── `Transaction.php`      # Transaction modell
+│   │   └── `User.php`             # User modell
+│   └── Providers/
+│       └── `AppServiceProvider.php` # szolgáltatók, bindingok regisztrálása
+├── bootstrap/
+│   ├── `app.php`                  # alkalmazás bootstrap
+│   ├── `providers.php`            # szolgáltatók listája
+│   └── cache/
+│       ├── `packages.php`         # cache-elt csomagkonfig
+│       └── `services.php`         # cache-elt szolgáltatások
+├── config/
+│   ├── `app.php`                  # alkalmazás beállítások
+│   ├── `auth.php`                 # autentikációs beállítások
+│   ├── `database.php`             # adatbázis beállítások
+│   └── ...                        # további konfigurációs fájlok (mail, queue stb.)
+├── database/
+│   ├── factories/                 # model factory-k (pl. `UserFactory.php`)
+│   ├── migrations/                # migrációk (pl. `2026_03_20_120510_create_games_table.php`)
+│   └── seeders/
+│       └── `DatabaseSeeder.php`   # adatbázis seederek
+├── docs/
+│   └── `backend.md`               # backend specifikus dokumentáció
+├── public/
+│   ├── `index.php`                # front controller
+│   ├── `favicon.ico`
+│   └── `robots.txt`
+├── resources/
+│   └── views/                     # Blade nézetek (ha használt)
+├── routes/
+│   ├── `api.php`                  # API útvonalak
+│   ├── `web.php`                  # web útvonalak
+│   └── `console.php`              # konzol parancsok regisztrációja
+├── storage/
+│   ├── app/
+│   ├── framework/
+│   └── logs/                      # logok és feltöltött fájlok
+├── tests/
+│   ├── `TestCase.php`
+│   └── Feature/                   # funkcionális tesztek
+└── vendor/                        # Composer által telepített csomagok
+
 ```
 
 ---
