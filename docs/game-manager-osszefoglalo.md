@@ -69,7 +69,7 @@ cd game-manager-backend
 php artisan serve
 # → http://localhost:8000/api
 ```
-# Frontend
+# Backend
 
 ## Mappaszerkezet (Backend)
 
