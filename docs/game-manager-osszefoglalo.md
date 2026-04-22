@@ -6,17 +6,17 @@ A **Game Manager** egy webalapú játékkezelő és vásárlási platform. A fro
 
 ---
 
-## 2. Technológiai stack
+## Technológiai Stack
 
-| Réteg | Technológia | Verzió |
-|---|---|---|
-| Frontend | Angular | ^20.3.0 |
-| Frontend | TypeScript | ~5.9.2 |
-| Frontend | RxJS | ~7.8.0 |
-| Frontend | Zone.js | ~0.15.0 |
-| Backend | Laravel REST API | – |
-| Kommunikáció | HTTP (Bearer token) | – |
-
+| Technológia | Verzió | Szerepkör |
+|------------|--------|-----------|
+| **PHP** | 8.2.12 | Backend nyelv |
+| **Laravel** | 12.53.0 | Framework |
+| **MySQL** | 8.0+ | Adatbázis |
+| **Composer** | 2.8.12 | Dependency manager |
+| **Laravel Sanctum** | - | API autentikáció |
+| **Mailtrap** | - | Email tesztelés |
+| **PHPUnit** | - | Tesztelés |
 ---
 
 ## 3. Indítás
