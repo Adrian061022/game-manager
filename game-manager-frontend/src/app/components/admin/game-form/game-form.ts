@@ -73,7 +73,7 @@ export class GameForm implements OnInit {
       },
       error: (error: { error?: { message?: string } }) => {
       console.error('Error loading game:', error);
-      this.errorMessage = 'Failed to load game';
+      this.errorMessage = 'Nem sikerült betölteni a játékot.';
       this.isLoading = false;
       }
     });
@@ -91,8 +91,8 @@ export class GameForm implements OnInit {
     request.subscribe({
       next: (response: { data: Game }) => {
       this.successMessage = this.isEditMode 
-        ? 'Game updated successfully!' 
-        : 'Game created successfully!';
+        ? 'Játék sikeresen frissítve!' 
+        : 'Játék sikeresen létrehozva!';
       
       setTimeout(() => {
         this.router.navigate(['/game', response.data.id]);
@@ -100,7 +100,7 @@ export class GameForm implements OnInit {
       },
       error: (error: { error?: { message?: string; errors?: Record<string, string[]> } }) => {
       console.error('Error saving game:', error);
-      this.errorMessage = error.error?.message || 'Failed to save game';
+      this.errorMessage = error.error?.message || 'Nem sikerült menteni a játékot.';
       if (error.error?.errors) {
         const errors = Object.values(error.error.errors).flat();
         this.errorMessage = errors.join(', ');

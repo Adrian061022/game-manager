@@ -1,4 +1,11 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
 .profile-page {
+  flex: 1;
   padding: 48px 0 80px;
 }
 

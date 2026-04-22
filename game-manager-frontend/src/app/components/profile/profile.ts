@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { LibraryService } from '../../services/library.service';
 import { User } from '../../models/user.model';
@@ -10,7 +10,7 @@ import { TopUpModalComponent } from '../top-up-modal/top-up-modal';
 
 @Component({
   selector: 'app-profile',
-  imports: [CommonModule, FormsModule, TopUpModalComponent],
+  imports: [CommonModule, FormsModule, RouterLink, TopUpModalComponent],
   templateUrl: './profile.html',
   styleUrl: './profile.css',
   standalone: true

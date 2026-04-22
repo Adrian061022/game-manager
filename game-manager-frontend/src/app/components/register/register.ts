@@ -35,7 +35,7 @@ export class Register {
 
     // Check if passwords match
     if (this.userData.password !== this.userData.password_confirmation) {
-      this.errorMessage = 'Passwords do not match';
+      this.errorMessage = 'A jelszavak nem egyeznek.';
       this.isLoading = false;
       return;
     }
@@ -43,14 +43,14 @@ export class Register {
     this.authService.register(this.userData).subscribe({
       next: (response) => {
         console.log('Registration successful', response);
-        this.successMessage = 'Registration successful! Redirecting...';
+        this.successMessage = 'Sikeres regisztráció! Átirányítás...';
         setTimeout(() => {
           this.router.navigate(['/']);
         }, 1000);
       },
       error: (error) => {
         console.error('Registration error', error);
-        this.errorMessage = error.error?.message || 'Registration failed. Please try again.';
+        this.errorMessage = error.error?.message || 'Regisztráció sikertelen. Kérjük, próbáld újra.';
         if (error.error?.errors) {
           // Handle Laravel validation errors
           const errors = Object.values(error.error.errors).flat();

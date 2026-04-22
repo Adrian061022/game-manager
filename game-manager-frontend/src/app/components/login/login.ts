@@ -36,7 +36,7 @@ export class Login {
       },
       error: (error) => {
         console.error('Login error', error);
-        this.errorMessage = error.error?.message || 'Invalid email or password';
+        this.errorMessage = error.error?.message || 'Érvénytelen email cím vagy jelszó.';
         this.isLoading = false;
       },
       complete: () => {
