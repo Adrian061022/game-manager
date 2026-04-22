@@ -4,6 +4,18 @@
 
 A **Game Manager** egy webalapú játékkezelő és vásárlási platform. A frontend **Angular 20** (standalone komponens architektúra), a backend **Laravel REST API** alapon működik. Az API alap URL-je: `http://localhost:8000/api`.
 
+Főbb funkciók:
+
+Sanctum token alapú autentikáció
+Email verifikáció (Mailtrap integráció)
+Szerepkör alapú jogosultságkezelés (User/Admin)
+Játékok CRUD műveletek
+Felhasználói könyvtár (vásárlás, egyenleg kezelés)
+Véleményezési rendszer
+Tranzakció követés
+Soft delete támogatás
+CORS konfiguráció Angular frontend-hez
+
 ---
 
 ## Technológiai Stack
