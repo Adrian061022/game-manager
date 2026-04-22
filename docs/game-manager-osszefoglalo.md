@@ -67,8 +67,12 @@ src/
     ├── interceptors/              # HTTP interceptorok
     ├── models/                    # TypeScript interfészek
     └── services/                  # API kommunikáció
+```
 
-## Mappaszerkezet (Backend)
+## 5. Mappaszerkezet (Backend)
+
+```
+
 
 game-manager-backend/
 ├── `artisan`                      # Laravel CLI indító fájl
