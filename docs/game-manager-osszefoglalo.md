@@ -41,6 +41,8 @@ ng serve
 # → http://localhost:4200
 
 # Backend (külön terminál)
+cd game-manager-backend
+php artisan serve
 # → http://localhost:8000/api
 ```
 
